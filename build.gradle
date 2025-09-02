@@ -25,19 +25,81 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+
+    // spring boot starter data
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
+    // spring boot starter
     implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+
+    // swagger
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0'
+
+    // jwt
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+    // password encode
+    implementation 'at.favre.lib:bcrypt:0.10.2'
+
+    // MySQL
+    runtimeOnly 'com.mysql:mysql-connector-j'
+
+    // H2
+    runtimeOnly 'com.h2database:h2'
+
+    // redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+    // Retry (API 호출 재시도 등)
+    implementation 'org.springframework.retry:spring-retry'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+
+    // redisson
+    implementation 'org.redisson:redisson-spring-boot-starter:3.50.0'
+    //  Redisson을 Spring Boot와 통합해서 쉽게 사용할 수 있게 해줌. Redisson은 고급 분산 기능 제공.
+
+    // lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.security:spring-security-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-}
 
-tasks.named('test') {
-    useJUnitPlatform()
+    // aws
+    implementation platform('software.amazon.awssdk:bom:2.31.60')
+    implementation 'software.amazon.awssdk:sns'
+    implementation 'software.amazon.awssdk:sqs'
+    implementation 'software.amazon.awssdk:auth'
+    implementation 'software.amazon.awssdk:sts'
+    implementation 'software.amazon.awssdk:imds'
+
+    // test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // Spring Boot 테스트의 기본 세트. 단위 테스트, 통합 테스트 등 거의 모든 Spring 기반 테스트에 필수
+    testImplementation 'org.mockito:mockito-core:5.18.0'
+    testImplementation 'org.springframework.security:spring-security-test' // Spring Security 관련 테스트 기능을 제공하는 라이브러리
+    testImplementation 'com.navercorp.fixturemonkey:fixture-monkey-starter:1.1.11' // 테스트할 때 더미 객체(Object)를 자동 생성
+    testAnnotationProcessor 'org.projectlombok:lombok' // 테스트 코드에서 Lombok 어노테이션을 처리하기 위해 사용하는 annotation processor
+    testCompileOnly 'org.projectlombok:lombok' // 테스트 코드에서 Lombok을 사용할 수 있게 하지만, 실제 빌드 결과물에는 포함되지 않게 설정
+    testRuntimeOnly 'com.h2database:h2' // 테스트 실행 시에만 필요한 H2 데이터베이스 라이브러리
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    //JUnit 5 플랫폼 런처. 보통 직접 쓸 일이 없고, IDE나 빌드 도구(예: Gradle, Maven)가 테스트를 실행할 수 있게 해주는 백엔드 런타임 라이브러리
+    testImplementation 'org.assertj:assertj-core:3.24.2'
+    // JUnit 테스트에서 사용하는 assertEquals, assertTrue 같은 기본적인 assertion보다 더 읽기 쉽고 강력한 문법을 제공
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+
+    // querydsl
+    implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+    annotationProcessor 'com.querydsl:querydsl-apt:5.0.0:jakarta'
+    annotationProcessor 'jakarta.persistence:jakarta.persistence-api:3.1.0'
+    annotationProcessor 'jakarta.annotation:jakarta.annotation-api:2.1.1'
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
 }
