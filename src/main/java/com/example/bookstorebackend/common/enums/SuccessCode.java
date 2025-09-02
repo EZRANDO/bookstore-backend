@@ -27,11 +27,11 @@ public enum SuccessCode implements BaseCode {
                 .httpStatus(httpStatus)
                 .message(message)
                 .build();
+
     }
 
     @Override
     public ApiResult getReasonHttpStatus() {
         return apiResult;
     }
-
 }
