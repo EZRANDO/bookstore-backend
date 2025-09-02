@@ -1,11 +1,9 @@
 package com.example.bookstorebackend.domain.auth.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
-//
+
 @Entity
 @Getter
 @Builder
@@ -14,10 +12,13 @@ import lombok.*;
 public class RefreshToken {
 
     @Id
-    @Column(name = "refresh_key", nullable = false)
-    private String key;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false)
+    private Long userId;
+
+    @Column(nullable = false, unique = true, length = 256)
     private String token;
 
     public void updateToken(String newToken) {
