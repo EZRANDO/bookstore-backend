@@ -61,8 +61,8 @@ public class AuthService {
 
         //토큰에서 저장하는 필드는 createdAt은 자동.
         RefreshToken refreshToken = RefreshToken.builder()
-                .key(authentication.getName()) //이메일이랑 비번
-                .token(tokenDto.getRefreshToken())
+                .userId(user.getId()) // 로그인한 사용자의 PK
+                .token(tokenDto.getRefreshToken()) // 발급된 리프레시 토큰
                 .build();
 
         refreshTokenRepository.save(refreshToken);
@@ -85,7 +85,7 @@ public class AuthService {
         String userEmail = authentication.getName();
 
         //db에서 저장된 리프레시 토큰 삭제
-        refreshTokenRepository.deleteByKey(userEmail);
+        refreshTokenRepository.deleteById(userEmail);
 
         //access token블랙리스트에 등록해서 만료시킴.
         //jwtfilter에서 블랙리스트에 토큰이 있는지 확인해야함.
@@ -112,7 +112,7 @@ public class AuthService {
         Authentication authentication = jwtProvider.getAuthentication(accessToken);
         String userEmail = authentication.getName();
 
-        RefreshToken savedToken = refreshTokenRepository.findByKey(userEmail)
+        RefreshToken savedToken = refreshTokenRepository.findById(userEmail)
                 .orElseThrow(() -> new CustomException(ErrorCode.REFRESH_TOKEN_NOT_FOUND));
 
         if (!savedToken.getToken().equals(refreshToken)) {
