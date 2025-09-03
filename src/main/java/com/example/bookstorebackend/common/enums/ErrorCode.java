@@ -17,8 +17,12 @@ public enum ErrorCode implements BaseCode {
     USER_NOT_SOFT_DELETED(HttpStatus.BAD_REQUEST, "소프트 삭제된 사용자만 완전 삭제할 수 있습니다."),
     TOKEN_VALIDATION_FAILED(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다."),
     REFRESH_TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, "리프레시 토큰을 찾을 수 없습니다."),
-    REFRESH_TOKEN_MISMATCH(HttpStatus.UNAUTHORIZED, "리프레시 토큰이 일치하지 않습니다.");
+    REFRESH_TOKEN_MISMATCH(HttpStatus.UNAUTHORIZED, "리프레시 토큰이 일치하지 않습니다."),
 
+
+    //BOOK
+    BOOK_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 도서를 찾을 수 없습니다."),
+    BOOK_STOCK_NOT_AVAILABLE(HttpStatus.BAD_REQUEST, "재고가 부족합니다.");
 
 
 

@@ -48,6 +48,8 @@ public class Book extends BaseEntity {
                 .summary(createRequestDto.getSummary())
                 .isbn(createRequestDto.getIsbn())
                 .price(createRequestDto.getPrice())
+                .totalViews(0L)
+                .totalPurchases(0L)
                 .build();
 
     }

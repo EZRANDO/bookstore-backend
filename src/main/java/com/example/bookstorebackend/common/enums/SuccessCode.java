@@ -5,13 +5,20 @@ import org.springframework.http.HttpStatus;
 
 public enum SuccessCode implements BaseCode {
 
+    //USER
     CREATE_USER_SUCCESS(HttpStatus.CREATED, "유저를 생성했습니다."),
     UPDATE_USER_SUCCESS(HttpStatus.OK, "유저를 수정했습니다."),
     SOFT_DELETE_USER_SUCCESS(HttpStatus.NO_CONTENT, "사용자가 비활성화되었습니다."),
     HARD_DELETE_USER_SUCCESS(HttpStatus.NO_CONTENT, "사용자가 완전히 삭제되었습니다."),
     GET_USER_INFO_SUCCESS(HttpStatus.OK, "내 정보를 조회했습니다."),
-    GET_USER_PROFILE_SUCCESS(HttpStatus.OK, "유저 프로필을 조회했습니다.");
+    GET_USER_PROFILE_SUCCESS(HttpStatus.OK, "유저 프로필을 조회했습니다."),
 
+    //BOOK
+    CREATE_BOOK_SUCCESS(HttpStatus.CREATED, "도서가 성공적으로 등록되었습니다."),
+    GET_BOOK_SUCCESS(HttpStatus.OK, "도서 조회에 성공했습니다."),
+    GET_BOOK_LIST_SUCCESS(HttpStatus.OK, "도서 목록 조회에 성공했습니다."),
+    UPDATE_BOOK_SUCCESS(HttpStatus.OK, "도서가 성공적으로 수정되었습니다."),
+    DELETE_BOOK_SUCCESS(HttpStatus.NO_CONTENT, "도서가 성공적으로 삭제되었습니다.");
 
 
     // 본 코드

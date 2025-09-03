@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class BookDetailResponseDto {
+public class BookSummaryResponseDto {
 
     private String title;
 
@@ -14,21 +14,11 @@ public class BookDetailResponseDto {
 
     private String publisher;
 
-    private String summary;
-
-    private String isbn;
-
-    private Integer price;
-
-    public static BookDetailResponseDto from(Book book) {
-        return BookDetailResponseDto.builder()
+    public static BookSummaryResponseDto from(Book book) {
+        return BookSummaryResponseDto.builder()
                 .title(book.getTitle())
                 .author(book.getAuthor())
                 .publisher(book.getPublisher())
-                .summary(book.getSummary())
-                .isbn(book.getIsbn())
-                .price(book.getPrice())
                 .build();
     }
-
 }

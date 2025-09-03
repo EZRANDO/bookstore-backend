@@ -35,7 +35,9 @@ public class SecurityConfig {
             "/api/auth/**",
             "/actuator/health",
             "/error",
-            "/api/users/signup"
+            "/api/users/signup",
+            "/api/public/books",
+            "/api/public/books/**"
     };
 
     //사용자가 누구인지 확인하는 과정 : 로그인시 refresh token저장 및 갱신
