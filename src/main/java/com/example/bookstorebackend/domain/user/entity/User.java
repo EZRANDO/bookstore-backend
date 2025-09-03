@@ -1,7 +1,7 @@
 package com.example.bookstorebackend.domain.user.entity;
 
 import com.example.bookstorebackend.common.entity.BaseEntity;
-import com.example.bookstorebackend.domain.user.request.UserCreateRequestDto;
+import com.example.bookstorebackend.domain.user.dto.request.UserCreateRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
 

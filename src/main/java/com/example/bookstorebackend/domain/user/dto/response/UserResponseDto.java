@@ -1,4 +1,4 @@
-package com.example.bookstorebackend.domain.user.response;
+package com.example.bookstorebackend.domain.user.dto.response;
 
 import com.example.bookstorebackend.domain.user.entity.User;
 import lombok.Builder;

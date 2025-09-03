@@ -2,11 +2,11 @@ package com.example.bookstorebackend.domain.user.controller;
 
 import com.example.bookstorebackend.common.enums.SuccessCode;
 import com.example.bookstorebackend.common.response.ApiResponse;
-import com.example.bookstorebackend.domain.user.request.UserCreateRequestDto;
-import com.example.bookstorebackend.domain.user.request.UserUpdateRequestDto;
-import com.example.bookstorebackend.domain.user.request.UserWithdrawalRequestDto;
-import com.example.bookstorebackend.domain.user.response.UserBaseResponseDto;
-import com.example.bookstorebackend.domain.user.response.UserResponseDto;
+import com.example.bookstorebackend.domain.user.dto.request.UserCreateRequestDto;
+import com.example.bookstorebackend.domain.user.dto.request.UserUpdateRequestDto;
+import com.example.bookstorebackend.domain.user.dto.request.UserWithdrawalRequestDto;
+import com.example.bookstorebackend.domain.user.dto.response.UserBaseResponseDto;
+import com.example.bookstorebackend.domain.user.dto.response.UserResponseDto;
 import com.example.bookstorebackend.domain.user.service.UserService;
 import com.example.bookstorebackend.security.principal.CustomUserPrincipal;
 import jakarta.validation.Valid;
