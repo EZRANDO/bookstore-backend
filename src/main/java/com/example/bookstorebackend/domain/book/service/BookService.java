@@ -64,11 +64,12 @@ public class BookService {
 
     }
 
+
     public User validUser(Long userId) {
         User user = userRepository.findByIdAndDeletedAtIsNull(userId)
                 .orElseThrow(()-> new CustomException(ErrorCode.USER_NOT_FOUND));
         return user;
-    }
+
 
 
 
