@@ -76,7 +76,6 @@ public class BookService {
         bookRepository.delete(book);
     }
 
-
     public User validUser(Long userId) {
         User user = userRepository.findByIdAndDeletedAtIsNull(userId)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
