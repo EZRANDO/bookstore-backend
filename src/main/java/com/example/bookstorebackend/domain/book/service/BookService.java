@@ -29,7 +29,7 @@ public class BookService {
 
     @Transactional
     public BookResponseDto createBook(BookRequestDto bookCreateRequestDto, Long userId) {
-        User user = validUser(userId);
+        validUser(userId);
 
         Book book = Book.createFromBook(bookCreateRequestDto);
 
@@ -56,7 +56,7 @@ public class BookService {
 
     @Transactional
     public BookUpdateResponseDto updateBook(BookRequestDto bookCreateRequestDto, Long userId, Long bookId) {
-        User user = validUser(userId);
+        validUser(userId);
 
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new CustomException(ErrorCode.BOOK_NOT_FOUND));
@@ -68,7 +68,7 @@ public class BookService {
 
     @Transactional
     public void deleteBook(Long bookId, Long userId) {
-        User user = validUser(userId);
+        validUser(userId);
 
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new CustomException(ErrorCode.BOOK_NOT_FOUND));

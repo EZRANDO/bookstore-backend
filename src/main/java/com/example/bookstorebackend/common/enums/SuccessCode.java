@@ -29,7 +29,15 @@ public enum SuccessCode implements BaseCode {
     //ORDER
     CREATE_ORDER_SUCCESS(HttpStatus.CREATED, "주문이 정상적으로 생성되었습니다."),
     GET_ORDER_ITEMS_SUCCESS(HttpStatus.OK, "주문 항목 목록을 정상적으로 조회했습니다."),
-    UPDATE_ORDER_STATUS_SUCCESS(HttpStatus.OK, "주문 상태를 정상적으로 변경했습니다.");
+    UPDATE_ORDER_STATUS_SUCCESS(HttpStatus.OK, "주문 상태를 정상적으로 변경했습니다."),
+
+    //REVIEW
+    CREATE_REVIEW_SUCCESS(HttpStatus.CREATED, "리뷰를 생성했습니다."),
+    GET_REVIEWS_SUCCESS (HttpStatus.OK,"리뷰 목록을 조회했습니다."),
+    GET_REVIEW_SUCCESS  (HttpStatus.OK,"리뷰를 조회했습니다."),
+    UPDATE_REVIEW_SUCCESS(HttpStatus.OK,"리뷰를 수정했습니다."),
+    DELETE_REVIEW_SUCCESS(HttpStatus.OK,  "리뷰를 삭제했습니다.");
+
 
     // 본 코드
     private final HttpStatus httpStatus;
