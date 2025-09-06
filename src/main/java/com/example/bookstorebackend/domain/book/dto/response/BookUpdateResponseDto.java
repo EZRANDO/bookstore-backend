@@ -8,16 +8,16 @@ import java.time.LocalDateTime;
 
 @Builder
 @Getter
-public class BookResponseDto {
+public class BookUpdateResponseDto {
 
     private final Long bookId;
 
-    private final LocalDateTime createdAt;
+    private final LocalDateTime updatedAt;
 
-    public static BookResponseDto from(Book book) {
-        return BookResponseDto.builder()
+    public static BookUpdateResponseDto from(Book book) {
+        return BookUpdateResponseDto.builder()
                 .bookId(book.getId())
-                .createdAt(book.getCreatedAt())
+                .updatedAt(book.getUpdatedAt())
                 .build();
     }
 }

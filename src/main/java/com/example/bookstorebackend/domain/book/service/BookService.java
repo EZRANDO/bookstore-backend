@@ -6,6 +6,7 @@ import com.example.bookstorebackend.domain.book.dto.request.BookRequestDto;
 import com.example.bookstorebackend.domain.book.dto.response.BookDetailResponseDto;
 import com.example.bookstorebackend.domain.book.dto.response.BookResponseDto;
 import com.example.bookstorebackend.domain.book.dto.response.BookSummaryResponseDto;
+import com.example.bookstorebackend.domain.book.dto.response.BookUpdateResponseDto;
 import com.example.bookstorebackend.domain.book.entity.Book;
 import com.example.bookstorebackend.domain.book.repository.BookRepository;
 import com.example.bookstorebackend.domain.user.entity.User;
@@ -54,7 +55,7 @@ public class BookService {
     }
 
     @Transactional
-    public BookResponseDto updateBook(BookRequestDto bookCreateRequestDto, Long userId, Long bookId) {
+    public BookUpdateResponseDto updateBook(BookRequestDto bookCreateRequestDto, Long userId, Long bookId) {
         User user = validUser(userId);
 
         Book book = bookRepository.findById(bookId)
@@ -62,7 +63,7 @@ public class BookService {
 
         book.updateBook(bookCreateRequestDto);
 
-        return BookResponseDto.from(book);
+        return BookUpdateResponseDto.from(book);
     }
 
     @Transactional

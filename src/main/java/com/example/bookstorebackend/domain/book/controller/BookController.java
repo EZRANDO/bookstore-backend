@@ -7,6 +7,7 @@ import com.example.bookstorebackend.domain.book.dto.request.BookRequestDto;
 import com.example.bookstorebackend.domain.book.dto.response.BookDetailResponseDto;
 import com.example.bookstorebackend.domain.book.dto.response.BookResponseDto;
 import com.example.bookstorebackend.domain.book.dto.response.BookSummaryResponseDto;
+import com.example.bookstorebackend.domain.book.dto.response.BookUpdateResponseDto;
 import com.example.bookstorebackend.domain.book.service.BookService;
 import com.example.bookstorebackend.security.principal.CustomUserPrincipal;
 import jakarta.validation.Valid;
@@ -46,10 +47,10 @@ public class BookController {
     }
 
     @PutMapping("books/{bookId}")
-    public ResponseEntity <ApiResponse<BookResponseDto>> updateBook(@PathVariable Long bookId, @Valid @RequestBody BookRequestDto request,
-            @AuthenticationPrincipal CustomUserPrincipal principal
+    public ResponseEntity <ApiResponse<BookUpdateResponseDto>> updateBook(@PathVariable Long bookId, @Valid @RequestBody BookRequestDto request,
+                                                                          @AuthenticationPrincipal CustomUserPrincipal principal
     ) {
-        BookResponseDto responseDto = bookService.updateBook(request, principal.getUserId(), bookId);
+        BookUpdateResponseDto responseDto = bookService.updateBook(request, principal.getUserId(), bookId);
         return ApiResponse.onSuccess(SuccessCode.UPDATE_BOOK_SUCCESS, responseDto);
     }
 

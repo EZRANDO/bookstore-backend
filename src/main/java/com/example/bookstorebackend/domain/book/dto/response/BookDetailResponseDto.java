@@ -8,20 +8,23 @@ import lombok.Getter;
 @Getter
 public class BookDetailResponseDto {
 
-    private String title;
+    private final Long bookId;
 
-    private String author;
+    private final String title;
 
-    private String publisher;
+    private final String author;
 
-    private String summary;
+    private final String publisher;
 
-    private String isbn;
+    private final String summary;
 
-    private Integer price;
+    private final String isbn;
+
+    private final Integer price;
 
     public static BookDetailResponseDto from(Book book) {
         return BookDetailResponseDto.builder()
+                .bookId(book.getId())
                 .title(book.getTitle())
                 .author(book.getAuthor())
                 .publisher(book.getPublisher())
@@ -30,5 +33,4 @@ public class BookDetailResponseDto {
                 .price(book.getPrice())
                 .build();
     }
-
 }
