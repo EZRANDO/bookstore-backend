@@ -4,7 +4,6 @@ import com.example.bookstorebackend.common.enums.ErrorCode;
 import com.example.bookstorebackend.common.exception.CustomException;
 import com.example.bookstorebackend.domain.cart.entity.CartItem;
 import com.example.bookstorebackend.domain.cart.repository.CartItemRepository;
-import com.example.bookstorebackend.domain.order.dto.request.OrderRequestDto;
 import com.example.bookstorebackend.domain.order.dto.response.OrderBaseResponseDto;
 import com.example.bookstorebackend.domain.order.dto.response.OrderItemResponseDto;
 import com.example.bookstorebackend.domain.order.dto.response.OrderUpdateResponseDto;
@@ -36,7 +35,7 @@ public class OrderService {
     private final OrderItemRepository orderItemRepository;
 
     @Transactional
-    public OrderBaseResponseDto createOrder(OrderRequestDto requestDto, Long userId) {
+    public OrderBaseResponseDto createOrder(Long userId) {
 
         User user = validUser(userId);
 
@@ -54,13 +53,11 @@ public class OrderService {
         orderItemRepository.saveAll(orderItems);
 
         //총액 계산 상태 변경
-        int total = calculateTotalAmount(orderItems);
-        order.commitTotalAmount(total); //결제 이후에만 변경한다면 이 줄은 콜백 시점으로 이동
+        order.commitTotalAmount(calculateTotalAmount(orderItems)); //결제 이후에만 변경한다면 이 줄은 콜백 시점으로 이동
 
         //장바구니 비워짐
         cartItemRepository.deleteByCart_Id(items.getFirst().getCart().getId());
         return OrderBaseResponseDto.from(order);
-
     }
 
     public List<OrderItemResponseDto> findAllOrderItems (Long userId) {
@@ -80,7 +77,7 @@ public class OrderService {
 
         User user = validUser(userId);
 
-        Order order = orderRepository.findByIdAndUser_Id(orderId, userId)
+        Order order = orderRepository.findByIdAndUser_Id(orderId, user.getId())
                 .orElseThrow(() -> new CustomException(ErrorCode.ORDER_NOT_FOUND));
 
         order.changeStatus(requestDto.getStatus());

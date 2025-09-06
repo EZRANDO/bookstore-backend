@@ -32,7 +32,6 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private boolean deleted = false;
 
-    //임시로 nullable가능하게.
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 

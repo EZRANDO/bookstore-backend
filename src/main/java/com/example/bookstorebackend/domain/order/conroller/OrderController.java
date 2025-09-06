@@ -30,7 +30,7 @@ public class OrderController {
             @Valid @RequestBody OrderRequestDto requestDto,
             @AuthenticationPrincipal(expression = "userId") Long userId
     ) {
-        OrderBaseResponseDto body = orderService.createOrder(requestDto, userId);
+        OrderBaseResponseDto body = orderService.createOrder(userId);
         return ApiResponse.onSuccess(SuccessCode.CREATE_ORDER_SUCCESS, body);
     }
 

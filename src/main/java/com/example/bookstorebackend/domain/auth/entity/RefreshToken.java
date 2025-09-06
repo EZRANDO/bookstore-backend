@@ -3,7 +3,7 @@ package com.example.bookstorebackend.domain.auth.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-
+//되도록 간단히 구성
 @Entity
 @Getter
 @Builder
