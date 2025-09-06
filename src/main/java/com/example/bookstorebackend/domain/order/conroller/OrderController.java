@@ -2,7 +2,6 @@ package com.example.bookstorebackend.domain.order.conroller;
 
 import com.example.bookstorebackend.common.enums.SuccessCode;
 import com.example.bookstorebackend.common.response.ApiResponse;
-import com.example.bookstorebackend.domain.order.dto.request.OrderRequestDto;
 import com.example.bookstorebackend.domain.order.dto.response.OrderBaseResponseDto;
 import com.example.bookstorebackend.domain.order.dto.response.OrderItemResponseDto;
 import com.example.bookstorebackend.domain.order.dto.response.OrderUpdateResponseDto;
@@ -27,7 +26,6 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity<ApiResponse<OrderBaseResponseDto>> createOrder(
-            @Valid @RequestBody OrderRequestDto requestDto,
             @AuthenticationPrincipal(expression = "userId") Long userId
     ) {
         OrderBaseResponseDto body = orderService.createOrder(userId);
