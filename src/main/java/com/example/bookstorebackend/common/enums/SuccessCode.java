@@ -18,8 +18,18 @@ public enum SuccessCode implements BaseCode {
     GET_BOOK_SUCCESS(HttpStatus.OK, "도서 조회에 성공했습니다."),
     GET_BOOK_LIST_SUCCESS(HttpStatus.OK, "도서 목록 조회에 성공했습니다."),
     UPDATE_BOOK_SUCCESS(HttpStatus.OK, "도서가 성공적으로 수정되었습니다."),
-    DELETE_BOOK_SUCCESS(HttpStatus.NO_CONTENT, "도서가 성공적으로 삭제되었습니다.");
+    DELETE_BOOK_SUCCESS(HttpStatus.NO_CONTENT, "도서가 성공적으로 삭제되었습니다."),
 
+    //CART
+    ADD_CART_ITEM_SUCCESS(HttpStatus.CREATED, "장바구니에 도서가 성공적으로 추가되었습니다."),
+    UPDATE_CART_ITEM_SUCCESS(HttpStatus.OK, "장바구니 항목이 성공적으로 수정되었습니다."),
+    DELETE_CART_ITEM_SUCCESS(HttpStatus.NO_CONTENT, "장바구니 항목이 성공적으로 삭제되었습니다."),
+    GET_CART_ITEMS_SUCCESS(HttpStatus.OK, "장바구니 항목 목록이 성공적으로 조회되었습니다."),
+
+    //ORDER
+    CREATE_ORDER_SUCCESS(HttpStatus.CREATED, "주문이 정상적으로 생성되었습니다."),
+    GET_ORDER_ITEMS_SUCCESS(HttpStatus.OK, "주문 항목 목록을 정상적으로 조회했습니다."),
+    UPDATE_ORDER_STATUS_SUCCESS(HttpStatus.OK, "주문 상태를 정상적으로 변경했습니다.");
 
     // 본 코드
     private final HttpStatus httpStatus;
