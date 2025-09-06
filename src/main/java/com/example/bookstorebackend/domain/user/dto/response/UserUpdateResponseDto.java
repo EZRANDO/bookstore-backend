@@ -4,17 +4,20 @@ import com.example.bookstorebackend.domain.user.entity.User;
 import lombok.Builder;
 import lombok.Getter;
 
-//유저 생성 or 업데이트시 응답
+import java.time.LocalDateTime;
+
 @Builder
 @Getter
-public class UserBaseResponseDto {
+public class UserUpdateResponseDto {
 
     private final Long userId;
 
-    public static UserBaseResponseDto from(User user) {
-        return UserBaseResponseDto.builder()
+    private final LocalDateTime updatedAt;
+
+    public static UserUpdateResponseDto from(User user) {
+        return UserUpdateResponseDto.builder()
                 .userId(user.getId())
+                .updatedAt(user.getUpdatedAt())
                 .build();
     }
 }
-

@@ -9,7 +9,7 @@ import lombok.Getter;
 @Getter
 public class UserResponseDto {
 
-    private final Long id;
+    private final Long userId;
 
     private final String name;
 
@@ -17,7 +17,7 @@ public class UserResponseDto {
 
     public static UserResponseDto from(User user) {
         return UserResponseDto.builder()
-                .id(user.getId())
+                .userId(user.getId())
                 .name(user.getName())
                 .email(user.getEmail())
                 .build();

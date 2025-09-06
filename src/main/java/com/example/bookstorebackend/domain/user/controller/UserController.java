@@ -7,6 +7,7 @@ import com.example.bookstorebackend.domain.user.dto.request.UserUpdateRequestDto
 import com.example.bookstorebackend.domain.user.dto.request.UserWithdrawalRequestDto;
 import com.example.bookstorebackend.domain.user.dto.response.UserBaseResponseDto;
 import com.example.bookstorebackend.domain.user.dto.response.UserResponseDto;
+import com.example.bookstorebackend.domain.user.dto.response.UserUpdateResponseDto;
 import com.example.bookstorebackend.domain.user.service.UserService;
 import com.example.bookstorebackend.security.principal.CustomUserPrincipal;
 import jakarta.validation.Valid;
@@ -29,10 +30,10 @@ public class UserController {
     }
 
     @PatchMapping("/me")
-    public ResponseEntity<ApiResponse<UserBaseResponseDto>> updateMe(
+    public ResponseEntity<ApiResponse<UserUpdateResponseDto>> updateMe(
             @AuthenticationPrincipal CustomUserPrincipal principal, @Valid @RequestBody UserUpdateRequestDto req) {
-        UserBaseResponseDto userBaseResponseDto = userService.updateUser(principal.getUserId(), req);
-        return ApiResponse.onSuccess(SuccessCode.UPDATE_USER_SUCCESS, userBaseResponseDto);
+        UserUpdateResponseDto userUpdateResponseDto = userService.updateUser(principal.getUserId(), req);
+        return ApiResponse.onSuccess(SuccessCode.UPDATE_USER_SUCCESS, userUpdateResponseDto);
     }
 
     @GetMapping("/me")

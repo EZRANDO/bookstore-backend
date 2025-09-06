@@ -7,9 +7,9 @@ import lombok.Getter;
 @AllArgsConstructor
 public class LoginResponseDto {
 
-    private String accessToken;
+    private final String accessToken;
 
-    private String refreshToken;
+    private final String refreshToken;
 
     public static LoginResponseDto createFromSignup(String accessToken, String refreshToken) {
         return new LoginResponseDto(

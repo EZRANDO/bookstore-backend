@@ -3,13 +3,14 @@ package com.example.bookstorebackend.domain.user.service;
 
 import com.example.bookstorebackend.common.enums.ErrorCode;
 import com.example.bookstorebackend.common.exception.CustomException;
-import com.example.bookstorebackend.domain.user.entity.User;
-import com.example.bookstorebackend.domain.user.repository.UserRepository;
 import com.example.bookstorebackend.domain.user.dto.request.UserCreateRequestDto;
 import com.example.bookstorebackend.domain.user.dto.request.UserUpdateRequestDto;
 import com.example.bookstorebackend.domain.user.dto.request.UserWithdrawalRequestDto;
 import com.example.bookstorebackend.domain.user.dto.response.UserBaseResponseDto;
 import com.example.bookstorebackend.domain.user.dto.response.UserResponseDto;
+import com.example.bookstorebackend.domain.user.dto.response.UserUpdateResponseDto;
+import com.example.bookstorebackend.domain.user.entity.User;
+import com.example.bookstorebackend.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -42,7 +43,7 @@ public class UserService {
 
 
     @Transactional
-    public UserBaseResponseDto updateUser(Long userId, UserUpdateRequestDto updateRequestDto) {
+    public UserUpdateResponseDto updateUser(Long userId, UserUpdateRequestDto updateRequestDto) {
 
         User user = userRepository.findByIdAndDeletedFalse(userId)
                 .orElseThrow(()-> new CustomException(ErrorCode.USER_NOT_FOUND));
@@ -60,7 +61,7 @@ public class UserService {
             user.updateUser(updateRequestDto.getEmail(), null); // 이메일만 변경
         }
 
-        return UserBaseResponseDto.from(user);
+        return UserUpdateResponseDto.from(user);
     }
 
     //유저 단건 조회
