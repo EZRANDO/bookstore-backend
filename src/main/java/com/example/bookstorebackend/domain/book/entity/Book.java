@@ -40,6 +40,9 @@ public class Book extends BaseEntity {
     @Column(nullable = false)
     private Long totalPurchases;
 
+    @Column(nullable = false)
+    private long favoriteCount = 0;
+
     public static Book createFromBook(BookRequestDto createRequestDto) {
         return Book.builder()
                 .title(createRequestDto.getTitle())

@@ -36,8 +36,12 @@ public enum SuccessCode implements BaseCode {
     GET_REVIEWS_SUCCESS (HttpStatus.OK,"리뷰 목록을 조회했습니다."),
     GET_REVIEW_SUCCESS  (HttpStatus.OK,"리뷰를 조회했습니다."),
     UPDATE_REVIEW_SUCCESS(HttpStatus.OK,"리뷰를 수정했습니다."),
-    DELETE_REVIEW_SUCCESS(HttpStatus.OK,  "리뷰를 삭제했습니다.");
+    DELETE_REVIEW_SUCCESS(HttpStatus.OK,  "리뷰를 삭제했습니다."),
 
+    //FAVORITE
+    CREATE_FAVORITE_SUCCESS(HttpStatus.CREATED, "즐겨찾기 등록이 완료되었습니다."),
+    READ_FAVORITES_SUCCESS(HttpStatus.OK, "즐겨찾기 목록 조회가 완료되었습니다."),
+    DELETE_FAVORITE_SUCCESS(HttpStatus.OK, "즐겨찾기 삭제가 완료되었습니다.");
 
     // 본 코드
     private final HttpStatus httpStatus;

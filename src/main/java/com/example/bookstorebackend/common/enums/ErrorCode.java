@@ -41,7 +41,14 @@ public enum ErrorCode implements BaseCode {
     REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND,  "존재하지 않는 리뷰입니다."),
     REVIEW_ALREADY_EXISTS(HttpStatus.CONFLICT,  "해당 도서에 대한 리뷰가 이미 존재합니다."),
     REVIEW_NOT_ALLOWED_NO_PURCHASE(HttpStatus.FORBIDDEN,  "구매(배송완료)된 도서에만 리뷰를 작성할 수 있습니다."),
-    FORBIDDEN_REVIEW_ACCESS(HttpStatus.FORBIDDEN, "해당 리뷰에 대한 접근 권한이 없습니다.");
+    FORBIDDEN_REVIEW_ACCESS(HttpStatus.FORBIDDEN, "해당 리뷰에 대한 접근 권한이 없습니다."),
+
+    //BOOK
+    ALREADY_FAVORITE(HttpStatus.CONFLICT, "이미 찜한 도서입니다."),
+    FAVORITE_NOT_FOUND(HttpStatus.NOT_FOUND, "즐겨찾기 내역을 찾을 수 없습니다."),
+    INVALID_BOOK_FOR_FAVORITE(HttpStatus.BAD_REQUEST, "요청한 favoriteId와 bookId가 일치하지 않습니다.");
+
+
 
 
 
