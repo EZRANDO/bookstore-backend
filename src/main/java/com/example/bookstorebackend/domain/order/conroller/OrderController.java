@@ -2,10 +2,11 @@ package com.example.bookstorebackend.domain.order.conroller;
 
 import com.example.bookstorebackend.common.enums.SuccessCode;
 import com.example.bookstorebackend.common.response.ApiResponse;
+import com.example.bookstorebackend.domain.order.dto.request.OrderRequestDto;
+import com.example.bookstorebackend.domain.order.dto.request.OrderStatusUpdateRequestDto;
 import com.example.bookstorebackend.domain.order.dto.response.OrderBaseResponseDto;
 import com.example.bookstorebackend.domain.order.dto.response.OrderItemResponseDto;
 import com.example.bookstorebackend.domain.order.dto.response.OrderUpdateResponseDto;
-import com.example.bookstorebackend.domain.order.entity.OrderStatusUpdateRequest;
 import com.example.bookstorebackend.domain.order.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -26,9 +27,10 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity<ApiResponse<OrderBaseResponseDto>> createOrder(
+            @Valid @RequestBody OrderRequestDto requestDto,
             @AuthenticationPrincipal(expression = "userId") Long userId
     ) {
-        OrderBaseResponseDto body = orderService.createOrder(userId);
+        OrderBaseResponseDto body = orderService.createOrder(userId, requestDto);
         return ApiResponse.onSuccess(SuccessCode.CREATE_ORDER_SUCCESS, body);
     }
 
@@ -43,7 +45,7 @@ public class OrderController {
     @PatchMapping("/{orderId}/status")
     public ResponseEntity<ApiResponse<OrderUpdateResponseDto>> updateOrderStatus(
             @PathVariable Long orderId,
-            @Valid @RequestBody OrderStatusUpdateRequest requestDto,
+            @Valid @RequestBody OrderStatusUpdateRequestDto requestDto,
             @AuthenticationPrincipal(expression = "userId") Long userId
     ) {
         OrderUpdateResponseDto body = orderService.updateOrder(requestDto, orderId, userId);

@@ -4,12 +4,14 @@ import com.example.bookstorebackend.common.enums.ErrorCode;
 import com.example.bookstorebackend.common.exception.CustomException;
 import com.example.bookstorebackend.domain.cart.entity.CartItem;
 import com.example.bookstorebackend.domain.cart.repository.CartItemRepository;
+import com.example.bookstorebackend.domain.order.dto.request.OrderItemRequestDto;
+import com.example.bookstorebackend.domain.order.dto.request.OrderRequestDto;
+import com.example.bookstorebackend.domain.order.dto.request.OrderStatusUpdateRequestDto;
 import com.example.bookstorebackend.domain.order.dto.response.OrderBaseResponseDto;
 import com.example.bookstorebackend.domain.order.dto.response.OrderItemResponseDto;
 import com.example.bookstorebackend.domain.order.dto.response.OrderUpdateResponseDto;
 import com.example.bookstorebackend.domain.order.entity.Order;
 import com.example.bookstorebackend.domain.order.entity.OrderItem;
-import com.example.bookstorebackend.domain.order.entity.OrderStatusUpdateRequest;
 import com.example.bookstorebackend.domain.order.repository.OrderItemRepository;
 import com.example.bookstorebackend.domain.order.repository.OrderRepository;
 import com.example.bookstorebackend.domain.user.entity.User;
@@ -35,7 +37,7 @@ public class OrderService {
     private final OrderItemRepository orderItemRepository;
 
     @Transactional
-    public OrderBaseResponseDto createOrder(Long userId) {
+    public OrderBaseResponseDto createOrder(Long userId, OrderRequestDto orderRequestDto) {
 
         User user = validUser(userId);
 
@@ -47,7 +49,7 @@ public class OrderService {
         Order order = orderRepository.save(Order.of(user));
 
         //CartItem → OrderItem 생성
-        List<OrderItem> orderItems = buildOrderItems(order, items);
+        List<OrderItem> orderItems = buildOrderItems(order, items, orderRequestDto);
 
         //주문항목 저장
         orderItemRepository.saveAll(orderItems);
@@ -73,7 +75,7 @@ public class OrderService {
 
     //낙관적 락으로 동시 업데이트되는 문제를 해결 가능
     @Transactional
-    public OrderUpdateResponseDto updateOrder(OrderStatusUpdateRequest requestDto, Long orderId, Long userId) {
+    public OrderUpdateResponseDto updateOrder(OrderStatusUpdateRequestDto requestDto, Long orderId, Long userId) {
 
         User user = validUser(userId);
 
@@ -89,7 +91,7 @@ public class OrderService {
         int total = 0;
         for (OrderItem oi : orderItems) {
             int price = oi.getBook().getPrice();
-            int qty   = oi.getQuantity();        // >= 1 전제 (Bean Validation/DB가 보장)
+            int qty   = oi.getQuantity();
 
             try {
                 total = Math.addExact(total, Math.multiplyExact(price, qty));
@@ -100,15 +102,26 @@ public class OrderService {
         return total;
     }
 
-    private List<OrderItem> buildOrderItems(Order order, List<CartItem> cartItems) {
+    //해시맵으로 중복순회를 제거하는 최적화 로직 필요.
+    private List<OrderItem> buildOrderItems(Order order, List<CartItem> cartItems, OrderRequestDto orderRequestDto) {
         List<OrderItem> result = new ArrayList<>(cartItems.size());
-        for (CartItem ci : cartItems) {
-            int qty = ci.getQuantity();
-            if (qty <= 0) {
+        for (OrderItemRequestDto orderItem : orderRequestDto.getItems()) {
+            CartItem ci = cartItems.stream()
+                    .filter(c -> c.getBook().getId().equals(orderItem.getBookId()))
+                    .findFirst()
+                    .orElseThrow(() -> new CustomException(ErrorCode.CART_ITEM_NOT_FOUND));
+
+            int cartQty  = ci.getQuantity();
+            int orderQty = orderItem.getQuantity();
+
+            if (cartQty <= 0) {
                 throw new CustomException(ErrorCode.INVALID_ORDER_QUANTITY);
             }
-            // CartItem이 이미 Book을 들고 있으므로 재조회 불필요
-            result.add(OrderItem.of(order, ci.getBook(), qty));
+            if (orderQty > cartQty) {
+                throw new CustomException(ErrorCode.ORDER_QUANTITY_EXCEEDS_CART_QUANTITY);
+            }
+            //CartItem이 이미 Book을 들고 있으므로 재조회 불필요
+            result.add(OrderItem.of(order, ci.getBook(), cartQty));
         }
         return result;
     }

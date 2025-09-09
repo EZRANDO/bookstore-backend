@@ -42,7 +42,7 @@ public class Order extends BaseEntity {
         this.orderDate = LocalDateTime.now();
     }
 
-    public static Order of(User user) {
+    public static Order of(User user){
         return Order.builder()
                 .user(user)
                 .status(OrderStatus.CREATED)

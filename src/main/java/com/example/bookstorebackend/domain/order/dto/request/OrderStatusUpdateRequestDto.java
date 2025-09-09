@@ -1,4 +1,4 @@
-package com.example.bookstorebackend.domain.order.entity;
+package com.example.bookstorebackend.domain.order.dto.request;
 
 import com.example.bookstorebackend.domain.order.enums.OrderStatus;
 import jakarta.validation.constraints.NotNull;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderStatusUpdateRequest {
+public class OrderStatusUpdateRequestDto {
 
     @NotNull
     private OrderStatus status;

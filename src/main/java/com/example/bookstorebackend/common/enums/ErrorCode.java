@@ -36,6 +36,7 @@ public enum ErrorCode implements BaseCode {
     AMOUNT_OVERFLOW(HttpStatus.BAD_REQUEST, "결제 금액이 허용 범위를 초과했습니다."),
     INVALID_ORDER_STATUS_TRANSITION(HttpStatus.CONFLICT, "유효하지 않은 주문 상태 전이입니다."),
     INVALID_ORDER_STATE_TRANSITION(HttpStatus.CONFLICT, "허용되지 않는 주문 상태 전이입니다."),
+    ORDER_QUANTITY_EXCEEDS_CART_QUANTITY(HttpStatus.BAD_REQUEST,"주문 수량이 장바구니 수량을 초과합니다."),
 
     //REVIEW
     REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND,  "존재하지 않는 리뷰입니다."),
