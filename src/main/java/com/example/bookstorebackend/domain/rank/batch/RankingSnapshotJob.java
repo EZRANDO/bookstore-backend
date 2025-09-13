@@ -29,9 +29,6 @@ public class RankingSnapshotJob {
     private static final String SNAP_VIEW_5M     = "rank:view:5m";
     private static final String SNAP_PURCHASE_5M = "rank:purchase:5m";
 
-
-    private static String member(Long bookId) { return "book:" + bookId; }
-
     //이 기준 시간마다 새 실행이 시작됨.
     //같은 객체 내부 호출이면 트랜잭션을 여기에 붙여야 함.
     @Scheduled(fixedRate = 300_000, initialDelay = 10_000)
