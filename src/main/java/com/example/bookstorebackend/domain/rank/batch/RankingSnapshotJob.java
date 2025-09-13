@@ -11,10 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -77,11 +74,14 @@ public class RankingSnapshotJob {
 
     private void mergeZset(String key, boolean isView) {
         Set<ZSetOperations.TypedTuple<String>> tuples =
-                redis.opsForZSet().popMax(key, 1000); // 1000개씩 가져오고 삭제
+                redis.opsForZSet().popMax(key, 1000); //1000개씩 가져오고 삭제
 
         if (tuples == null || tuples.isEmpty()) return;
 
         for (ZSetOperations.TypedTuple<String> t : tuples) {
+            if (t.getValue() == null || t.getScore() == null) {
+                continue;
+            }
             Long bookId = parseBookId(t.getValue());
             long delta  = t.getScore().longValue();
 

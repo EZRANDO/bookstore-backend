@@ -16,6 +16,7 @@ public class StatsCommandService {
     //정렬 집합 키 이름을 상수로 관리.
     private static final String Z_VIEW_ALL     = "z:view:all";
     private static final String Z_PURCHASE_ALL = "z:purchase:all";
+    //멤버 키
     private static String member(Long bookId) { return "book:" + bookId; }
 
     //조회
