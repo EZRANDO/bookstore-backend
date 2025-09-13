@@ -1,8 +1,10 @@
-package com.example.bookstorebackend.domain.rank;
+package com.example.bookstorebackend.domain.rank.repository;
 
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.Modifying;
+
+import com.example.bookstorebackend.domain.rank.entity.BookStats;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface BookStatsRepository extends JpaRepository<BookStats, Long> {

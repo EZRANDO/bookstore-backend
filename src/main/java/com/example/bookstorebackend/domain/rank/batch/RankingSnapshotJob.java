@@ -1,5 +1,6 @@
-package com.example.bookstorebackend.domain.rank;
+package com.example.bookstorebackend.domain.rank.batch;
 
+import com.example.bookstorebackend.domain.rank.repository.BookStatsRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;

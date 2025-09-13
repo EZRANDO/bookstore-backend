@@ -1,5 +1,6 @@
-package com.example.bookstorebackend.domain.rank;
+package com.example.bookstorebackend.domain.rank.controller;
 
+import com.example.bookstorebackend.domain.rank.service.RankingQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

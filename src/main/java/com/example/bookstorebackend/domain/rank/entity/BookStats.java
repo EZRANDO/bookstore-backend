@@ -1,6 +1,5 @@
-package com.example.bookstorebackend.domain.rank;
+package com.example.bookstorebackend.domain.rank.entity;
 
-import com.example.bookstorebackend.common.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -15,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Table(name = "book_stats")
-public class BookStats extends BaseEntity {
+public class BookStats{
 
     @Id
     @Column(name = "book_id", nullable = false)
@@ -33,4 +32,6 @@ public class BookStats extends BaseEntity {
     @Column(name = "last_purchased_at")
     private LocalDateTime lastPurchasedAt;
 
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 }

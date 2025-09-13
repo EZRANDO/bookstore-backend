@@ -1,4 +1,4 @@
-package com.example.bookstorebackend.domain.rank;
+package com.example.bookstorebackend.domain.rank.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
