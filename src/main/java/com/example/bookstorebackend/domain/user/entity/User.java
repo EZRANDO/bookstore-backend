@@ -2,6 +2,7 @@ package com.example.bookstorebackend.domain.user.entity;
 
 import com.example.bookstorebackend.common.entity.BaseEntity;
 import com.example.bookstorebackend.domain.user.dto.request.UserCreateRequestDto;
+import com.example.bookstorebackend.domain.user.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,28 +30,42 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String password;
 
+    //enum타입을 어떻게 DB에 매핑할지 지정.
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
     @Column(nullable = false)
     private boolean deleted = false;
 
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
-    public static User createFromSignup(UserCreateRequestDto userCreateRequestDto, String encodedPassword) {
+    public static User createUserFromSignup(UserCreateRequestDto userCreateRequestDto, String encodedPassword) {
         return User.builder()
                 .email(userCreateRequestDto.getEmail())
                 //암호화된 값을 필드에 저장하기 위함.
                 .password(encodedPassword)
                 .name(userCreateRequestDto.getName())
+                .role(Role.USER)
                 .deleted(false)
                 .build();
+    }
 
+    public static User createAdminFromSignup(UserCreateRequestDto userCreateRequestDto, String encodedPassword) {
+        return User.builder()
+                .email(userCreateRequestDto.getEmail())
+                //암호화된 값을 필드에 저장하기 위함.
+                .password(encodedPassword)
+                .name(userCreateRequestDto.getName())
+                .role(Role.ADMIN)
+                .deleted(false)
+                .build();
     }
 
     public void updateUser(String newEmail, String newPassword) {
-
         this.email = newEmail;
         this.password = newPassword;
-
     }
 
     public void softDelete() {
@@ -58,9 +73,7 @@ public class User extends BaseEntity {
 
             this.deleted = true;
             this.deletedAt = LocalDateTime.now();
-
         }
     }
-
 }
 

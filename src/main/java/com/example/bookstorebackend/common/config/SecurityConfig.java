@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -21,6 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
     private final JwtProvider jwtProvider;
@@ -35,9 +37,12 @@ public class SecurityConfig {
             "/api/auth/**",
             "/actuator/health",
             "/error",
-            "/api/users/signup",
+            "/api/users",
+            "/api/admin/users",
             "/api/public/books",
-            "/api/public/books/**"
+            "/api/public/books/**",
+            "/api/rankings/**",
+            "/api/stats/view/**"
     };
 
     //사용자가 누구인지 확인하는 과정 : 로그인시 refresh token저장 및 갱신

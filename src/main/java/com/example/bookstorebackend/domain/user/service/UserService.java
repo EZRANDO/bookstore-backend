@@ -25,7 +25,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public UserBaseResponseDto signUp(UserCreateRequestDto userCreateRequestDto) {
+    public UserBaseResponseDto userSignup(UserCreateRequestDto userCreateRequestDto) {
 
         //이미 가입된 유저. 소프트 들리트된 유저 전부 확인
         if (userRepository.findByEmail(userCreateRequestDto.getEmail()).isPresent()) {
@@ -34,7 +34,24 @@ public class UserService {
 
         String encodedPassword = passwordEncoder.encode(userCreateRequestDto.getPassword());
 
-        User user = User.createFromSignup(userCreateRequestDto, encodedPassword);
+        User user = User.createUserFromSignup(userCreateRequestDto, encodedPassword);
+
+        User saveUser = userRepository.save(user);
+
+        return UserBaseResponseDto.from(saveUser);
+    }
+
+    @Transactional
+    public UserBaseResponseDto adminSignup(UserCreateRequestDto userCreateRequestDto) {
+
+        //이미 가입된 유저. 소프트 들리트된 유저 전부 확인
+        if (userRepository.findByEmail(userCreateRequestDto.getEmail()).isPresent()) {
+            throw new CustomException(ErrorCode.EMAIL_ALREADY_EXISTS);
+        }
+
+        String encodedPassword = passwordEncoder.encode(userCreateRequestDto.getPassword());
+
+        User user = User.createAdminFromSignup(userCreateRequestDto, encodedPassword);
 
         User saveUser = userRepository.save(user);
 
