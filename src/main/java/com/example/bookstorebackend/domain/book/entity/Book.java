@@ -35,12 +35,6 @@ public class Book extends BaseEntity {
     private Integer price;
 
     @Column(nullable = false)
-    private Long totalViews;
-
-    @Column(nullable = false)
-    private Long totalPurchases;
-
-    @Column(nullable = false)
     private long favoriteCount = 0;
 
     public static Book createFromBook(BookRequestDto createRequestDto) {
@@ -51,8 +45,6 @@ public class Book extends BaseEntity {
                 .summary(createRequestDto.getSummary())
                 .isbn(createRequestDto.getIsbn())
                 .price(createRequestDto.getPrice())
-                .totalViews(0L)
-                .totalPurchases(0L)
                 .build();
 
     }
