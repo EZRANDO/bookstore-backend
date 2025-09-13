@@ -1,5 +1,6 @@
 package com.example.bookstorebackend.domain.order.repository;
 
+import com.example.bookstorebackend.domain.order.entity.Order;
 import com.example.bookstorebackend.domain.order.entity.OrderItem;
 import com.example.bookstorebackend.domain.order.enums.OrderStatus;
 import com.example.bookstorebackend.domain.user.entity.User;
@@ -31,4 +32,6 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
     boolean existsPurchased(@Param("userId") Long userId,
                             @Param("bookId") Long bookId,
                             @Param("status") OrderStatus status);
+
+    List<OrderItem> findByOrder(Order order);
 }

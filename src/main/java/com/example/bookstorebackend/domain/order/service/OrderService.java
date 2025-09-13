@@ -12,11 +12,16 @@ import com.example.bookstorebackend.domain.order.dto.response.OrderItemResponseD
 import com.example.bookstorebackend.domain.order.dto.response.OrderUpdateResponseDto;
 import com.example.bookstorebackend.domain.order.entity.Order;
 import com.example.bookstorebackend.domain.order.entity.OrderItem;
+import com.example.bookstorebackend.domain.order.enums.OrderStatus;
+import com.example.bookstorebackend.domain.order.event.PurchaseAdjustedEvent;
+import com.example.bookstorebackend.domain.order.event.PurchaseConfirmedEvent;
 import com.example.bookstorebackend.domain.order.repository.OrderItemRepository;
 import com.example.bookstorebackend.domain.order.repository.OrderRepository;
 import com.example.bookstorebackend.domain.user.entity.User;
 import com.example.bookstorebackend.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -25,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //삭제는 일단 만들지 않았음.
+@Slf4j
 @Service
 @Validated
 @RequiredArgsConstructor
@@ -35,6 +41,7 @@ public class OrderService {
     private final CartItemRepository cartItemRepository;
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
+    private final ApplicationEventPublisher publisher;
 
     @Transactional
     public OrderBaseResponseDto createOrder(Long userId, OrderRequestDto orderRequestDto) {
@@ -62,7 +69,7 @@ public class OrderService {
         return OrderBaseResponseDto.from(order);
     }
 
-    public List<OrderItemResponseDto> findAllOrderItems (Long userId) {
+    public List<OrderItemResponseDto> findAllOrderItems(Long userId) {
 
         User user = validUser(userId);
 
@@ -82,8 +89,36 @@ public class OrderService {
         Order order = orderRepository.findByIdAndUser_Id(orderId, user.getId())
                 .orElseThrow(() -> new CustomException(ErrorCode.ORDER_NOT_FOUND));
 
+        OrderStatus before = order.getStatus();
         order.changeStatus(requestDto.getStatus());
 
+        //결제 확정시 구매 수 증가
+        try {
+            if (before != OrderStatus.SHIPPED && order.getStatus() == OrderStatus.SHIPPED) {
+                List<OrderItem> items = orderItemRepository.findByOrder(order);
+
+                List<PurchaseConfirmedEvent.Item> eventItems = items.stream()
+                        .map(i -> new PurchaseConfirmedEvent.Item(i.getBook().getId(), i.getQuantity()))
+                        .toList();
+
+                publisher.publishEvent(new PurchaseConfirmedEvent(order.getId(), eventItems));
+            }
+
+            //환불, 취소시 감소
+            if (before != OrderStatus.CANCELED && order.getStatus() == OrderStatus.CANCELED) {
+                List<OrderItem> items = orderItemRepository.findByOrder(order);
+
+                List<PurchaseAdjustedEvent.Item> eventItems = items.stream()
+                        .map(i -> new PurchaseAdjustedEvent.Item(i.getBook().getId(), i.getQuantity()))
+                        .toList();
+
+                publisher.publishEvent(new PurchaseAdjustedEvent(order.getId(), eventItems));
+            }
+        } catch (Exception e) {
+            log.warn("구매 통계 이벤트 발행 실패: orderId={}, status={}, error={}",
+                    orderId, order.getStatus(), e.getMessage(), e);
+            //주문은 성공하도록 처리
+        }
         return OrderUpdateResponseDto.from(order);
     }
 
