@@ -61,7 +61,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             return;
         }
 
-        // 토큰의 subject(이메일/아이디)
         try {
             UserDetails userDetails = customUserDetailsService.loadUserById(userId);
             UsernamePasswordAuthenticationToken authentication =

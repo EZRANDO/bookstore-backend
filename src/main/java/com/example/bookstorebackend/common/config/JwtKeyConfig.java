@@ -14,7 +14,7 @@ public class JwtKeyConfig {
     @Bean
     public SecretKey jwtSigningKey(@Value("${jwt.secret}") String base64Secret) {
         byte[] kb = Decoders.BASE64.decode(base64Secret.trim());
-        if (kb.length < 32) { // HS256: 32 bytes(=256 bits) 이상
+        if (kb.length < 32) {
             throw new IllegalStateException("JWT secret must be >= 256 bits (HS256).");
         }
         return Keys.hmacShaKeyFor(kb);

@@ -8,7 +8,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 
-//커스텀 유저 프린시펄로 만들 것
 @Getter
 public class CustomUserPrincipal implements UserDetails {
 
