@@ -42,6 +42,7 @@ public class OrderController {
         return ApiResponse.onSuccess(SuccessCode.GET_ORDER_ITEMS_SUCCESS, body);
     }
 
+    //이 경우 사용자와 관리자 로직이 뒤섞임. 사실상 분리 필요.
     @PatchMapping("/{orderId}/status")
     public ResponseEntity<ApiResponse<OrderUpdateResponseDto>> updateOrderStatus(
             @PathVariable Long orderId,

@@ -47,6 +47,7 @@ public class CartController {
         return ApiResponse.onSuccess(SuccessCode.UPDATE_CART_ITEM_SUCCESS, responseDto);
     }
 
+
     @DeleteMapping("/items/{bookId}")
     public ResponseEntity<ApiResponse<Void>> deleteItem(@PathVariable Long bookId,
             @AuthenticationPrincipal CustomUserPrincipal principal

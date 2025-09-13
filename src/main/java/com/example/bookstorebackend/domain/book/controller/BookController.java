@@ -13,6 +13,7 @@ import com.example.bookstorebackend.security.principal.CustomUserPrincipal;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +27,7 @@ public class BookController {
     private final BookService bookService;
 
     @PostMapping("/books")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<BookResponseDto>> createBook(
             @Valid @RequestBody BookRequestDto request, @AuthenticationPrincipal CustomUserPrincipal principal
     ) {
@@ -47,6 +49,7 @@ public class BookController {
     }
 
     @PutMapping("books/{bookId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity <ApiResponse<BookUpdateResponseDto>> updateBook(@PathVariable Long bookId, @Valid @RequestBody BookRequestDto request,
                                                                           @AuthenticationPrincipal CustomUserPrincipal principal
     ) {
@@ -55,6 +58,7 @@ public class BookController {
     }
 
     @DeleteMapping("books/{bookId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity <ApiResponse<Void>> deleteBook(
             @PathVariable Long bookId,
             @AuthenticationPrincipal CustomUserPrincipal principal
