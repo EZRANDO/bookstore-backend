@@ -53,14 +53,14 @@ dependencies {
     runtimeOnly 'com.mysql:mysql-connector-j'
 
     // H2
-    runtimeOnly 'com.h2database:h2'
+    //runtimeOnly 'com.h2database:h2'
 
     // redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
     // Retry (API 호출 재시도 등)
-    implementation 'org.springframework.retry:spring-retry'
-    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    //implementation 'org.springframework.retry:spring-retry'
+    //implementation 'org.springframework.boot:spring-boot-starter-aop'
 
     // redisson
     implementation 'org.redisson:redisson-spring-boot-starter:3.50.0'
@@ -94,10 +94,10 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
 
     // querydsl
-    implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
-    annotationProcessor 'com.querydsl:querydsl-apt:5.0.0:jakarta'
-    annotationProcessor 'jakarta.persistence:jakarta.persistence-api:3.1.0'
-    annotationProcessor 'jakarta.annotation:jakarta.annotation-api:2.1.1'
+    //implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+    //annotationProcessor 'com.querydsl:querydsl-apt:5.0.0:jakarta'
+    //annotationProcessor 'jakarta.persistence:jakarta.persistence-api:3.1.0'
+    //annotationProcessor 'jakarta.annotation:jakarta.annotation-api:2.1.1'
 
     tasks.named('test') {
         useJUnitPlatform()

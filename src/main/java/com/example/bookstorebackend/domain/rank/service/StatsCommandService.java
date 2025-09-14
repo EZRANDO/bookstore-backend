@@ -20,7 +20,7 @@ public class StatsCommandService {
     private static String member(Long bookId) { return "book:" + bookId; }
 
     //조회
-    //특정 도서 조히 1회 발생 -> view키에서 책 멤버 점수를 +1증가시킴.
+    //특정 도서 조히 1회 발생 view키에서 책 멤버 점수 +1증가시킴
     public void recordView(Long bookId) {
         redis.opsForZSet().incrementScore(Z_VIEW_ALL, member(bookId), 1D);
     }
