@@ -4,7 +4,6 @@ import com.example.bookstorebackend.common.enums.ErrorCode;
 import com.example.bookstorebackend.common.exception.CustomException;
 import com.example.bookstorebackend.domain.book.entity.Book;
 import com.example.bookstorebackend.domain.book.repository.BookRepository;
-import com.example.bookstorebackend.domain.cart.dto.request.UpdateCartItemRequestDto;
 import com.example.bookstorebackend.domain.cart.entity.Cart;
 import com.example.bookstorebackend.domain.cart.entity.CartItem;
 import com.example.bookstorebackend.domain.cart.repository.CartItemRepository;
@@ -68,7 +67,7 @@ public class CartService {
     }
 
     @Transactional
-    public CartBaseResponseDto updateCart(UpdateCartItemRequestDto cartRequestDto, Long userId) {
+    public CartBaseResponseDto updateCart(CartRequestDto cartRequestDto, Long userId) {
 
         User user = validUser(userId);
 
