@@ -41,8 +41,6 @@ public class FavoriteService {
 
         favoriteRepository.save(favorite);
 
-        bookRepository.incrementFavoriteCount(bookId);
-
         return FavoriteResponseDto.from(favorite);
     }
 
@@ -64,10 +62,7 @@ public class FavoriteService {
         Favorite favorite = favoriteRepository.findByIdAndUser_Id(favoriteId, user.getId())
                 .orElseThrow(()-> new CustomException(ErrorCode.FAVORITE_NOT_FOUND));
 
-        Long bookId = favorite.getBook().getId();
-
         favoriteRepository.delete(favorite);
-        bookRepository.decrementFavoriteCount(bookId);
     }
 
     public User validUser(Long userId) {
