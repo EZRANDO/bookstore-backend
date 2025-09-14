@@ -1,9 +1,10 @@
-package com.example.bookstorebackend.domain.auth.dto.controller;
+package com.example.bookstorebackend.domain.auth.controller;
 
 import com.example.bookstorebackend.domain.auth.dto.request.LoginRequestDto;
 import com.example.bookstorebackend.domain.auth.dto.response.LoginResponseDto;
-import com.example.bookstorebackend.domain.auth.dto.response.TokenDto;
 import com.example.bookstorebackend.domain.auth.service.AuthService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -17,11 +18,13 @@ import java.util.Objects;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/auth")
+@Tag(name = "Auth", description = "로그인 / 로그아웃 / 토큰 재발급")
 public class AuthController {
 
     private final AuthService authService;
 
     @PostMapping("/login")
+    @Operation(summary = "로그인", description = "자격 증명 검증 후 Access/Refresh 토큰 발급")
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response) {
         LoginResponseDto loginResponseDto = authService.login(loginRequestDto);
 
@@ -44,6 +47,7 @@ public class AuthController {
 
     //쿠키가 RefreshToken이 들어있어 로그아웃시 삭제하지 않으면 토큰 재발급 공격에 노출될 확률 높음.
     @PostMapping("/logout")
+    @Operation(summary = "로그아웃", description = "AccessToken 블랙리스트 처리 및 Refresh 쿠키 삭제")
     public ResponseEntity<Void> logout(@RequestHeader("Authorization") String authorizationHeader,
                                        HttpServletResponse response) {
 
@@ -70,7 +74,8 @@ public class AuthController {
     }
 
     @PostMapping("/reissue")
-    public ResponseEntity<TokenDto> reissue(@RequestHeader("Authorization") String authorizationHeader,
+    @Operation(summary = "토큰 재발급", description = "만료(임박) AccessToken + RefreshToken으로 재발급")
+    public ResponseEntity<LoginResponseDto> reissue(@RequestHeader("Authorization") String authorizationHeader,
                                             @CookieValue(value = "refreshToken", required = false)String refreshToken,
                                             HttpServletResponse response) {
 
@@ -79,10 +84,10 @@ public class AuthController {
         }
 
         String accessToken = authorizationHeader.substring(7);
-        TokenDto tokenDto = authService.reissue(accessToken, refreshToken);
+        LoginResponseDto loginResponseDto = authService.reissue(accessToken, refreshToken);
 
         // 새 RefreshToken을 쿠키에 다시 저장
-        ResponseCookie newCookie = ResponseCookie.from("refreshToken", tokenDto.getRefreshToken())
+        ResponseCookie newCookie = ResponseCookie.from("refreshToken", loginResponseDto.getRefreshToken())
                 .httpOnly(true)
                 .secure(true)
                 .path("/")
@@ -92,6 +97,6 @@ public class AuthController {
 
         response.addHeader(HttpHeaders.SET_COOKIE, newCookie.toString());
 
-        return ResponseEntity.ok(tokenDto);
+        return ResponseEntity.ok(loginResponseDto);
     }
 }

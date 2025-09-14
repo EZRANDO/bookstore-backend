@@ -4,7 +4,6 @@ import com.example.bookstorebackend.common.enums.ErrorCode;
 import com.example.bookstorebackend.common.exception.CustomException;
 import com.example.bookstorebackend.domain.auth.dto.request.LoginRequestDto;
 import com.example.bookstorebackend.domain.auth.dto.response.LoginResponseDto;
-import com.example.bookstorebackend.domain.auth.dto.response.TokenDto;
 import com.example.bookstorebackend.domain.auth.entity.RefreshToken;
 import com.example.bookstorebackend.domain.auth.repository.RefreshTokenRepository;
 import com.example.bookstorebackend.domain.user.entity.User;
@@ -57,17 +56,17 @@ public class AuthService {
                 new UsernamePasswordAuthenticationToken(loginRequestDto.getEmail(), loginRequestDto.getPassword()));
 
         //토큰 생성 임시 전달용 객체. JWT생성해서 담아놓은 것.
-        TokenDto tokenDto = generateTokenDto(authentication);
+        LoginResponseDto loginResponseDto = generateTokenDto(authentication);
 
         //토큰에서 저장하는 필드는 createdAt은 자동.
         RefreshToken refreshToken = RefreshToken.builder()
                 .userId(user.getId()) // 로그인한 사용자의 PK
-                .token(tokenDto.getRefreshToken()) // 발급된 리프레시 토큰
+                .token(loginResponseDto.getRefreshToken()) // 발급된 리프레시 토큰
                 .build();
 
         refreshTokenRepository.save(refreshToken);
 
-        return LoginResponseDto.createFromSignup(tokenDto.getAccessToken(), tokenDto.getRefreshToken());
+        return LoginResponseDto.createFromSignup(loginResponseDto.getAccessToken(), loginResponseDto.getRefreshToken());
     }
 
     //로그아웃시 토큰 무효화
@@ -97,17 +96,17 @@ public class AuthService {
     //JWT서명 및 만료시간을 안전하게 생성해야 함. Jwt문자열 저장.
     //사용자 정보, 만료시간, 서명을 넣어 문자열을 생성. jwt의 3가지 파트 구성을 생성하기 위해.
     @Transactional
-    public TokenDto generateTokenDto(Authentication authentication) {
+    public LoginResponseDto generateTokenDto(Authentication authentication) {
         String accessToken = jwtProvider.createAccessToken(authentication);
         String refreshToken = jwtProvider.createRefreshToken(authentication);
 
-        return new TokenDto(accessToken, refreshToken);
+        return new LoginResponseDto(accessToken, refreshToken);
     }
 
     //사용자가 요청하지 않더라도 프론트엔드에서 받아서 따로 재발급 메서드를 처리해야함.
     //프론트가 자동으로 재발급 요청을 보내주니까 그걸 받아서 처리해줄 재발급 로직이 백엔드에 반드시 있어야.
     @Transactional
-    public TokenDto reissue(String accessToken, String refreshToken) {
+    public LoginResponseDto reissue(String accessToken, String refreshToken) {
 
         Authentication authentication = jwtProvider.getAuthentication(accessToken);
         String userEmail = authentication.getName();
@@ -124,7 +123,7 @@ public class AuthService {
 
         savedToken.updateToken(newRefreshToken);
 
-        return new TokenDto(newAccessToken, newRefreshToken);
+        return new LoginResponseDto(newAccessToken, newRefreshToken);
 
     }
 }
