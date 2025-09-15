@@ -17,7 +17,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "favorites",
+@Table(name = "favorite",
         uniqueConstraints = @UniqueConstraint(name = "uk_user_book", columnNames = {"user_id","book_id"}))
 public class Favorite extends BaseEntity {
 
