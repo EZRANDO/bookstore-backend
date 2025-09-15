@@ -36,7 +36,7 @@ http://localhost:8080/swagger-ui/index.html
 
 ---
 
-## 📙 실행방법
+## 📗 실행방법
 
 1. 환경 파일 생성 (`src/main/resources/application.properties`)
 2. 로컬에 설치된 Redis실행
