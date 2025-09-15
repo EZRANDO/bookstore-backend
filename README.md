@@ -30,10 +30,10 @@
 
 ---
 
-## 📘 Swagger UI제공
+## 📘 Swagger UI, POSTMAN API명세서
 
-http://localhost:8080/swagger-ui/index.html
-
+- http://localhost:8080/swagger-ui/index.html
+- https://documenter.getpostman.com/view/43249619/2sB3HqHJbY
 ---
 
 ## 📗 실행방법
