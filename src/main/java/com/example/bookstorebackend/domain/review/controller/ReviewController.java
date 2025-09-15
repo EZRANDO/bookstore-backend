@@ -27,6 +27,7 @@ public class ReviewController {
 
     @PostMapping("/books/{bookId}/reviews")
     @Operation(summary = "리뷰 작성", description = "사용자가 특정 도서에 대해 리뷰를 작성합니다.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "201", description = "생성 성공")
     public ResponseEntity<ApiResponse<ReviewBaseResponseDto>> createReview(
             @AuthenticationPrincipal(expression = "userId") Long userId,
             @PathVariable Long bookId,
@@ -38,6 +39,7 @@ public class ReviewController {
 
     @GetMapping("/reviews/me")
     @Operation(summary = "내 리뷰 조회", description = "현재 로그인한 사용자가 작성한 리뷰 전체를 조회합니다.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "조회 성공")
     public ResponseEntity<ApiResponse<List<ReviewResponseDto>>> findMyReviews(
             @AuthenticationPrincipal(expression = "userId") Long userId
     ) {
@@ -47,6 +49,7 @@ public class ReviewController {
 
     @GetMapping("/reviews/{reviewId}")
     @Operation(summary = "리뷰 상세 조회", description = "리뷰 ID로 특정 리뷰를 조회합니다.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "조회 성공")
     public ResponseEntity<ApiResponse<ReviewResponseDto>> getReviewById(
             @AuthenticationPrincipal(expression = "userId") Long userId,
             @PathVariable Long reviewId
@@ -57,6 +60,7 @@ public class ReviewController {
 
     @PatchMapping("/reviews/{reviewId}")
     @Operation(summary = "리뷰 수정", description = "리뷰 ID로 특정 리뷰 내용을 수정합니다.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "수정 성공")
     public ResponseEntity<ApiResponse<ReviewUpdateResponseDto>> updateReview(
             @AuthenticationPrincipal(expression = "userId") Long userId,
             @PathVariable Long reviewId,
@@ -68,6 +72,7 @@ public class ReviewController {
 
     @DeleteMapping("/reviews/{reviewId}")
     @Operation(summary = "리뷰 삭제", description = "리뷰 ID로 특정 리뷰를 삭제합니다.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "204", description = "삭제 성공")
     public ResponseEntity<ApiResponse<Void>> deleteReview(
             @AuthenticationPrincipal(expression = "userId") Long userId,
             @PathVariable Long reviewId

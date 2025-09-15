@@ -42,7 +42,12 @@ public class SecurityConfig {
             "/api/public/books",
             "/api/public/books/**",
             "/api/rankings/**",
-            "/api/stats/view/**"
+            "/api/stats/view/**",
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
+            "/swagger-resources/**",
+            "/webjars/**"
+
     };
 
     //사용자가 누구인지 확인하는 과정 : 로그인시 refresh token저장 및 갱신

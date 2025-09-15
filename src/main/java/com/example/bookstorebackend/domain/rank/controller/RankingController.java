@@ -2,6 +2,7 @@ package com.example.bookstorebackend.domain.rank.controller;
 
 import com.example.bookstorebackend.domain.rank.service.RankingQueryService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,12 +21,14 @@ public class RankingController {
 
     @GetMapping("/viewed")
     @Operation(summary = "조회수 랭킹", description = "조회수가 높은 도서 순으로 반환합니다.")
+    @ApiResponse(responseCode = "200", description = "조회 성공")
     public List<RankingQueryService.RankingItemDto> topViewed() {
         return rankingQueryService.getTopViewed();
     }
 
     @GetMapping("/purchased")
     @Operation(summary = "구매수 랭킹", description = "구매수가 높은 도서 순으로 반환합니다.")
+    @ApiResponse(responseCode = "200", description = "조회 성공")
     public List<RankingQueryService.RankingItemDto> topPurchased() {
         return rankingQueryService.getTopPurchased();
     }

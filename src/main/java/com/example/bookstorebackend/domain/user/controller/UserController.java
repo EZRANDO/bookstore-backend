@@ -28,6 +28,7 @@ public class UserController {
 
     @PostMapping("/users")
     @Operation(summary = "사용자 회원가입", description = "일반 사용자가 회원가입합니다.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "201", description = "회원가입 성공")
     public ResponseEntity<ApiResponse<UserBaseResponseDto>> userSignup(
             @Valid @RequestBody UserCreateRequestDto userCreateRequestDto
     ) {
@@ -37,6 +38,7 @@ public class UserController {
 
     @PostMapping("/admin/users")
     @Operation(summary = "관리자 회원가입", description = "관리자가 회원가입합니다.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "201", description = "회원가입 성공")
     public ResponseEntity<ApiResponse<UserBaseResponseDto>> adminSignup(
             @Valid @RequestBody UserCreateRequestDto userCreateRequestDto
     ) {
@@ -46,6 +48,7 @@ public class UserController {
 
     @PatchMapping("/users/me")
     @Operation(summary = "내 정보 수정", description = "현재 로그인한 사용자가 자신의 정보를 수정합니다.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "수정 성공")
     public ResponseEntity<ApiResponse<UserUpdateResponseDto>> updateMe(
             @AuthenticationPrincipal CustomUserPrincipal principal,
             @Valid @RequestBody UserUpdateRequestDto req
@@ -56,6 +59,7 @@ public class UserController {
 
     @GetMapping("/users/me")
     @Operation(summary = "내 정보 조회", description = "현재 로그인한 사용자의 정보를 조회합니다.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "조회 성공")
     public ResponseEntity<ApiResponse<UserResponseDto>> getMe(
             @AuthenticationPrincipal CustomUserPrincipal principal
     ) {
@@ -65,6 +69,7 @@ public class UserController {
 
     @DeleteMapping("/users/me/soft-delete")
     @Operation(summary = "소프트 삭제", description = "현재 로그인한 사용자를 소프트 삭제(탈퇴 처리)합니다.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "204", description = "삭제 성공")
     public ResponseEntity<ApiResponse<Void>> sofedeleteMe(
             @Valid @RequestBody UserWithdrawalRequestDto req,
             @AuthenticationPrincipal CustomUserPrincipal principal
@@ -75,6 +80,7 @@ public class UserController {
 
     @DeleteMapping("/users/me/permanent")
     @Operation(summary = "영구 삭제", description = "현재 로그인한 사용자를 데이터베이스에서 완전히 삭제합니다.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "204", description = "삭제 성공")
     public ResponseEntity<ApiResponse<Void>> deleteMe(
             @AuthenticationPrincipal CustomUserPrincipal principal
     ) {

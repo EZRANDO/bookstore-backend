@@ -32,6 +32,7 @@ public class BookController {
     @PostMapping("/books")
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "도서 등록", description = "관리자가 새로운 도서를 등록합니다.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "201", description = "생성 성공")
     public ResponseEntity<ApiResponse<BookResponseDto>> createBook(
             @Valid @RequestBody BookRequestDto request, @AuthenticationPrincipal CustomUserPrincipal principal
     ) {
@@ -42,6 +43,7 @@ public class BookController {
 
     @GetMapping("/public/books/{bookId}")
     @Operation(summary = "도서 상세 조회", description = "특정 도서 ID로 상세 정보를 조회합니다.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "조회 성공")
     public ResponseEntity<ApiResponse<BookDetailResponseDto>> getBookById(
             @PathVariable Long bookId
     ) {
@@ -51,6 +53,7 @@ public class BookController {
 
     @GetMapping("/public/books")
     @Operation(summary = "도서 전체 조회", description = "등록된 모든 도서를 요약 정보로 조회합니다.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "조회 성공")
     public ResponseEntity<ApiResponse<List<BookSummaryResponseDto>>> getAllBooks() {
         List<BookSummaryResponseDto> list = bookService.getAllBooks();
         return ApiResponse.onSuccess(SuccessCode.GET_BOOK_LIST_SUCCESS, list);
@@ -59,6 +62,7 @@ public class BookController {
     @PutMapping("/books/{bookId}")
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "도서 수정", description = "관리자가 특정 도서 정보를 수정합니다.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "수정 성공")
     public ResponseEntity<ApiResponse<BookUpdateResponseDto>> updateBook(
             @PathVariable Long bookId,
             @Valid @RequestBody BookRequestDto request,
@@ -71,6 +75,7 @@ public class BookController {
     @DeleteMapping("/books/{bookId}")
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "도서 삭제", description = "관리자가 특정 도서를 삭제합니다.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "204", description = "삭제 성공")
     public ResponseEntity<ApiResponse<Void>> deleteBook(
             @PathVariable Long bookId,
             @AuthenticationPrincipal CustomUserPrincipal principal
