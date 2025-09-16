@@ -30,7 +30,7 @@
 
 ---
 ## 📙 ERD 설계
-<img width="1212" height="1286" alt="ERD설계" src="https://github.com/user-attachments/assets/87baf228-5e50-4850-b5d5-ce984e49ff55" />
+<img width="1212" height="1286" alt="bookstrore-erd설계" src="https://github.com/user-attachments/assets/0939e8a1-30cc-4a93-842a-639c36bbeb57" />
 
 ## 📘 Swagger UI, POSTMAN API명세서
 
