@@ -1,12 +1,12 @@
 package com.example.bookstorebackend.domain.book.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
+import java.time.LocalDate;
 
 @Getter
 @AllArgsConstructor
@@ -40,4 +40,9 @@ public class BookRequestDto {
     @Positive(message = "가격은 0보다 큰 값이어야 합니다.")
     @Schema(description = "도서 가격", example = "30000", minimum = "1")
     private Integer price;
+
+    @NotNull(message = "출판일은 필수 입력값입니다.")
+    @PastOrPresent(message = "출판일은 현재 날짜보다 미래일 수 없습니다.")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate publicationDate;
 }
