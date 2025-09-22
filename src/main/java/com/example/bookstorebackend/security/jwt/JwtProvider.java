@@ -1,5 +1,6 @@
 package com.example.bookstorebackend.security.jwt;
 
+import com.example.bookstorebackend.domain.user.enums.Role;
 import com.example.bookstorebackend.security.principal.CustomUserPrincipal;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ public class JwtProvider {
     private final SecretKey signingKey;
 
     //토큰 생성
+    //Role role
     public String createAccessToken(Authentication authentication) {
         long now = System.currentTimeMillis();
 
@@ -38,11 +40,13 @@ public class JwtProvider {
         return Jwts.builder()
                 .setSubject(String.valueOf(userId))
                 .claim("roles", roles)
+     //           .claim("tt", role.name())
                 .setIssuedAt(new Date(now))
                 .setExpiration(new Date(now + jwtProperties.getAccessTokenExpireTime()))
                 .signWith(signingKey, SignatureAlgorithm.HS256)
                 .compact();
     }
+
     public String createRefreshToken(Authentication authentication) {
 
         CustomUserPrincipal userPrincipal = (CustomUserPrincipal) authentication.getPrincipal();
@@ -121,5 +125,15 @@ public class JwtProvider {
     }
     public long getRefreshTokenExpireTime() {
         return jwtProperties.getRefreshTokenExpireTime();
+    }
+
+    public <T> T getClaim(String token, String name, Class<T> clazz) {
+        return Jwts.parserBuilder().setSigningKey(signingKey).build()
+                .parseClaimsJws(token).getBody().get(name, clazz);
+    }
+
+    public Role getRole(String token) {
+        String tt = getClaim(token, "tt", String.class);
+        return Role.valueOf(tt);
     }
 }

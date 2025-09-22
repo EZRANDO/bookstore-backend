@@ -10,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-@Table(name = "cart")
+@Table(name = "carts")
 public class Cart extends BaseEntity {
 
     @Id

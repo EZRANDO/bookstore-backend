@@ -12,7 +12,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "review")
+@Table(name = "reviews")
 public class Review extends BaseEntity {
 
     @Id

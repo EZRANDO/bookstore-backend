@@ -27,6 +27,7 @@ public class CartController {
 
     @PostMapping("/items")
     @Operation(summary = "장바구니 항목 추가", description = "사용자의 장바구니에 새로운 도서를 추가합니다.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "201", description = "생성 성공")
     public ResponseEntity<ApiResponse<CartBaseResponseDto>> addItem(@Valid @RequestBody CartRequestDto request,
             @AuthenticationPrincipal CustomUserPrincipal principal
     ) {
@@ -36,6 +37,7 @@ public class CartController {
 
     @GetMapping("/items")
     @Operation(summary = "장바구니 항목 전체 조회", description = "사용자의 장바구니에 담긴 모든 항목을 조회합니다.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "조회 성공")
     public ResponseEntity<ApiResponse<List<CartItemResponseDto>>> findAllItems(
             @AuthenticationPrincipal CustomUserPrincipal principal
     ) {
@@ -45,6 +47,7 @@ public class CartController {
 
     @PutMapping("/items")
     @Operation(summary = "장바구니 수량 변경", description = "사용자의 장바구니에 담긴 도서의 수량을 수정합니다.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "수정 성공")
     public ResponseEntity<ApiResponse<CartBaseResponseDto>> updateItemQuantity(@Valid @RequestBody CartRequestDto request,
             @AuthenticationPrincipal CustomUserPrincipal principal
     ) {
@@ -55,6 +58,7 @@ public class CartController {
 
     @DeleteMapping("/items/{bookId}")
     @Operation(summary = "장바구니 항목 삭제", description = "사용자의 장바구니에서 특정 도서를 삭제합니다.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "204", description = "삭제 성공")
     public ResponseEntity<ApiResponse<Void>> deleteItem(@PathVariable Long bookId,
             @AuthenticationPrincipal CustomUserPrincipal principal
     ) {
