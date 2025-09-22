@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-@Table(name = "user")
+@Table(name = "users")
 public class User extends BaseEntity {
 
     @Id
@@ -48,17 +48,6 @@ public class User extends BaseEntity {
                 .password(encodedPassword)
                 .name(userCreateRequestDto.getName())
                 .role(Role.USER)
-                .deleted(false)
-                .build();
-    }
-
-    public static User createAdminFromSignup(UserCreateRequestDto userCreateRequestDto, String encodedPassword) {
-        return User.builder()
-                .email(userCreateRequestDto.getEmail())
-                //암호화된 값을 필드에 저장하기 위함.
-                .password(encodedPassword)
-                .name(userCreateRequestDto.getName())
-                .role(Role.ADMIN)
                 .deleted(false)
                 .build();
     }

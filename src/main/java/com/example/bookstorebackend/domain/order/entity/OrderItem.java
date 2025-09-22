@@ -15,7 +15,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 //같은 도서 중복 행 금지
-@Table(name = "order_item", uniqueConstraints = {
+@Table(name = "order_items", uniqueConstraints = {
                 @UniqueConstraint(
                         name = "uq_order_item_order_book",
                         columnNames = {"order_id", "book_id"})},
