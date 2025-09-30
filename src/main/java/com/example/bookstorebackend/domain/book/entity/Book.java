@@ -5,12 +5,14 @@ import com.example.bookstorebackend.domain.book.dto.request.BookRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Getter
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-@Table(name = "book")
+@Table(name = "books")
 public class Book extends BaseEntity {
 
     @Id
@@ -34,6 +36,9 @@ public class Book extends BaseEntity {
     @Column(nullable = false)
     private Integer price;
 
+    @Column(nullable = false)
+    private LocalDate publicationDate;
+
     public static Book createFromBook(BookRequestDto createRequestDto) {
         return Book.builder()
                 .title(createRequestDto.getTitle())
@@ -42,6 +47,7 @@ public class Book extends BaseEntity {
                 .summary(createRequestDto.getSummary())
                 .isbn(createRequestDto.getIsbn())
                 .price(createRequestDto.getPrice())
+                .publicationDate(createRequestDto.getPublicationDate())
                 .build();
 
     }
@@ -53,5 +59,6 @@ public class Book extends BaseEntity {
         this.summary = dto.getSummary();
         this.isbn = dto.getIsbn();
         this.price = dto.getPrice();
+        this.publicationDate = dto.getPublicationDate();
     }
 }

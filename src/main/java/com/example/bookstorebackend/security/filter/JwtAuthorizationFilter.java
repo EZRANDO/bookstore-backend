@@ -46,7 +46,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             //혹시 모름 인코딩.
             response.setCharacterEncoding("UTF-8");
             //실제 본문.
-            response.getWriter().write("{\"message\": \"블랙리스트 토큰입니다.\"}");
+            response.getWriter().write("{\"message\": \"유효하지 않은 토큰입니다.\"}");
             return;
         }
 
@@ -64,8 +64,11 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         try {
             UserDetails userDetails = customUserDetailsService.loadUserById(userId);
             UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    new UsernamePasswordAuthenticationToken(userDetails,
+                            null,
+                            userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
+
         } catch (org.springframework.security.core.userdetails.UsernameNotFoundException ex) {
             SecurityContextHolder.clearContext();
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

@@ -19,34 +19,24 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/users")
 @RequiredArgsConstructor
 @Tag(name = "Users", description = "사용자 관리 API")
 public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/users")
+    @PostMapping
     @Operation(summary = "사용자 회원가입", description = "일반 사용자가 회원가입합니다.")
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "201", description = "회원가입 성공")
     public ResponseEntity<ApiResponse<UserBaseResponseDto>> userSignup(
             @Valid @RequestBody UserCreateRequestDto userCreateRequestDto
     ) {
-        UserBaseResponseDto baseResponseDto = userService.userSignup(userCreateRequestDto);
+        UserBaseResponseDto baseResponseDto = userService.signUp(userCreateRequestDto);
         return ApiResponse.onSuccess(SuccessCode.CREATE_USER_SUCCESS, baseResponseDto);
     }
 
-    @PostMapping("/admin/users")
-    @Operation(summary = "관리자 회원가입", description = "관리자가 회원가입합니다.")
-    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "201", description = "회원가입 성공")
-    public ResponseEntity<ApiResponse<UserBaseResponseDto>> adminSignup(
-            @Valid @RequestBody UserCreateRequestDto userCreateRequestDto
-    ) {
-        UserBaseResponseDto baseResponseDto = userService.adminSignup(userCreateRequestDto);
-        return ApiResponse.onSuccess(SuccessCode.CREATE_ADMIN_SUCCESS, baseResponseDto);
-    }
-
-    @PatchMapping("/users/me")
+    @PatchMapping("/me")
     @Operation(summary = "내 정보 수정", description = "현재 로그인한 사용자가 자신의 정보를 수정합니다.")
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "수정 성공")
     public ResponseEntity<ApiResponse<UserUpdateResponseDto>> updateMe(
@@ -57,7 +47,7 @@ public class UserController {
         return ApiResponse.onSuccess(SuccessCode.UPDATE_USER_SUCCESS, userUpdateResponseDto);
     }
 
-    @GetMapping("/users/me")
+    @GetMapping("/me")
     @Operation(summary = "내 정보 조회", description = "현재 로그인한 사용자의 정보를 조회합니다.")
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "조회 성공")
     public ResponseEntity<ApiResponse<UserResponseDto>> getMe(
@@ -67,7 +57,7 @@ public class UserController {
         return ApiResponse.onSuccess(SuccessCode.GET_USER_INFO_SUCCESS, userResponseDto);
     }
 
-    @DeleteMapping("/users/me/soft-delete")
+    @DeleteMapping("/me/soft-delete")
     @Operation(summary = "소프트 삭제", description = "현재 로그인한 사용자를 소프트 삭제(탈퇴 처리)합니다.")
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "204", description = "삭제 성공")
     public ResponseEntity<ApiResponse<Void>> sofedeleteMe(
@@ -78,7 +68,7 @@ public class UserController {
         return ApiResponse.onSuccess(SuccessCode.SOFT_DELETE_USER_SUCCESS, null);
     }
 
-    @DeleteMapping("/users/me/permanent")
+    @DeleteMapping("/me/permanent")
     @Operation(summary = "영구 삭제", description = "현재 로그인한 사용자를 데이터베이스에서 완전히 삭제합니다.")
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "204", description = "삭제 성공")
     public ResponseEntity<ApiResponse<Void>> deleteMe(

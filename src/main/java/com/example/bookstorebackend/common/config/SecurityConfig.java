@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -34,11 +35,10 @@ public class SecurityConfig {
     //절대 바뀌지 않는 보안 정책 경로는 상수로 선언
     //actuUator/health는 서버가 살아 있는지, 정상 작동 중인지 확인하는 헬스체크 엔드포인트 쿠버네티스나 nginx가 이 경로로 호출함.
     private static final String[] PUBLIC_MATCHERS = {
-            "/api/auth/**",
             "/actuator/health",
+            "api/auth/login",
             "/error",
             "/api/users",
-            "/api/admin/users",
             "/api/public/books",
             "/api/public/books/**",
             "/api/rankings/**",
@@ -81,6 +81,9 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(PUBLIC_MATCHERS).permitAll()
+                        .requestMatchers(HttpMethod.POST,   "/api/books/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT,    "/api/books/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/books/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterAt(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)

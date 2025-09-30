@@ -13,7 +13,7 @@ import lombok.*;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-@Table(name = "cart_item", uniqueConstraints = @UniqueConstraint(name="uq_cart_item_cart_book",
+@Table(name = "cart_items", uniqueConstraints = @UniqueConstraint(name="uq_cart_item_cart_book",
         columnNames={"cart_id","book_id"}))
 public class CartItem extends BaseEntity {
 

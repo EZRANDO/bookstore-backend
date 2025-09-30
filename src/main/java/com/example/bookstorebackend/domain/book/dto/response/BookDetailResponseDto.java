@@ -5,6 +5,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDate;
+
 @Builder
 @Getter
 @Schema(name = "BookDetailResponse", description = "도서 상세 응답 DTO")
@@ -31,6 +33,10 @@ public class BookDetailResponseDto {
     @Schema(description = "가격", example = "30000")
     private final Integer price;
 
+    @Schema(description = "도서 출판일 (YYYY-MM-DD 형식)", example = "2023-05-10")
+    private final LocalDate publicationDate;
+
+
     public static BookDetailResponseDto from(Book book) {
         return BookDetailResponseDto.builder()
                 .bookId(book.getId())
@@ -40,6 +46,7 @@ public class BookDetailResponseDto {
                 .summary(book.getSummary())
                 .isbn(book.getIsbn())
                 .price(book.getPrice())
+                .publicationDate(book.getPublicationDate())
                 .build();
     }
 }
