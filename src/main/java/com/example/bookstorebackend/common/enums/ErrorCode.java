@@ -47,9 +47,10 @@ public enum ErrorCode implements BaseCode {
     //BOOK
     ALREADY_FAVORITE(HttpStatus.CONFLICT, "이미 찜한 도서입니다."),
     FAVORITE_NOT_FOUND(HttpStatus.NOT_FOUND, "즐겨찾기 내역을 찾을 수 없습니다."),
-    INVALID_BOOK_FOR_FAVORITE(HttpStatus.BAD_REQUEST, "요청한 favoriteId와 bookId가 일치하지 않습니다.");
+    INVALID_BOOK_FOR_FAVORITE(HttpStatus.BAD_REQUEST, "요청한 favoriteId와 bookId가 일치하지 않습니다."),
 
-
+    //DISCOUNT
+    DISCOUNT_NOT_FOUND(HttpStatus.NOT_FOUND,"해당 할인을 찾을 수 없습니다.");
 
 
 
