@@ -30,8 +30,7 @@
 
 ---
 ## 📙 ERD 설계
-<img width="1212" height="1286" alt="bookstrore-erd설계" src="https://github.com/user-attachments/assets/0939e8a1-30cc-4a93-842a-639c36bbeb57" />
-
+orderIdreview가 구매 이력(order_item)과도 같이 연결되어있어야 함.
 ## 📘 Swagger UI, POSTMAN API명세서
 
 - http://localhost:8080/swagger-ui/index.html
