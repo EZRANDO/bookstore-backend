@@ -31,6 +31,9 @@
 ---
 ## 📙 ERD 설계
 orderIdreview가 구매 이력(order_item)과도 같이 연결되어있어야 함.
+<img width="1212" height="1286" alt="Untitled" src="https://github.com/user-attachments/assets/c04a29db-ecdf-4db7-8a00-6fc4d4530dfe" />
+
+
 ## 📘 Swagger UI, POSTMAN API명세서
 
 - http://localhost:8080/swagger-ui/index.html
