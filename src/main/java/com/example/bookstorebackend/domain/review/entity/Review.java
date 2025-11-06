@@ -2,6 +2,7 @@ package com.example.bookstorebackend.domain.review.entity;
 
 import com.example.bookstorebackend.common.entity.BaseEntity;
 import com.example.bookstorebackend.domain.book.entity.Book;
+import com.example.bookstorebackend.domain.order.entity.OrderItem;
 import com.example.bookstorebackend.domain.review.dto.request.ReviewRequestDto;
 import com.example.bookstorebackend.domain.user.entity.User;
 import jakarta.persistence.*;
@@ -27,6 +28,10 @@ public class Review extends BaseEntity {
     @JoinColumn(name = "book_id",  nullable = false)
     private Book book;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "order_item_id", nullable = false)
+    private OrderItem orderItem;
+
     @Column(nullable = false)
     private Integer rating;
 
@@ -41,6 +46,7 @@ public class Review extends BaseEntity {
                 .comment(dto.getComment())
                 .build();
     }
+
     public void updateReview(ReviewRequestDto dto) {
         this.rating = dto.getRating();
         this.comment = dto.getComment();
