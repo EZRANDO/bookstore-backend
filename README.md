@@ -30,7 +30,6 @@
 
 ---
 ## 📙 ERD 설계
-review가 구매 이력(order_item)과도 같이 연결되어있어야 함.
 <img width="1272" height="1258" alt="laksdjflasd" src="https://github.com/user-attachments/assets/8e254f5e-9db0-4874-98bf-6e7b809023d4" />
 
 
