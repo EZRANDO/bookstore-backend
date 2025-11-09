@@ -29,6 +29,7 @@
 - 도서 찜 / 취소
 
 ---
+논리필드 추가
 ## 📙 ERD 설계
 <img width="1272" height="1258" alt="laksdjflasd" src="https://github.com/user-attachments/assets/8e254f5e-9db0-4874-98bf-6e7b809023d4" />
 
