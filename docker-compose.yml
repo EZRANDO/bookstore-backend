@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: bookstore
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user1234
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: always
+
+  bookstore:
+    build: src/build
+    container_name: bookstore
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/bookstore
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: esca5323
+    ports:
+      - "8080:8080"
+    restart: always
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - bookstore
+    ports:
+      - "80:80"
+    restart: always
+
+volumes:
+  mysql_data:
