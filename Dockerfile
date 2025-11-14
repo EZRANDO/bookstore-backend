@@ -1,9 +1,9 @@
-FROM gradle:8.2-jdk21 AS builder
+FROM gradle:8.5.0-jdk21 AS builder
 WORKDIR /app
-COPY src/build .
-RUN gradle clean build -x test
+COPY . .
+RUN gradle clean build -x test --no-daemon --no-build-cache
 
-FROM openjdk:21-slim
+FROM eclipse-temurin:21-jre
 WORKDIR /app
 COPY --from=builder /app/build/libs/*.jar app.jar
 
