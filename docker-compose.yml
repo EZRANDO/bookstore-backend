@@ -8,8 +8,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: bookstore
-      MYSQL_USER: user
-      MYSQL_PASSWORD: user1234
+      MYSQL_USER: root
+      MYSQL_PASSWORD: esca5323
     ports:
       - "3306:3306"
     volumes:
@@ -17,7 +17,9 @@ services:
     restart: always
 
   bookstore:
-    build: src/build
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: bookstore
     depends_on:
       - mysql
