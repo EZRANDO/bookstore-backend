@@ -15,7 +15,7 @@ public class SwaggerConfig {
     public OpenAPI openAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Bookstore Auth API")
+                        .title("Bookstore API")
                         .version("v1.0.0")
                         .description("Spring Boot 기반 백엔드 API 명세서"))
                 .components(new Components()
@@ -24,8 +24,6 @@ public class SwaggerConfig {
                                         .type(SecurityScheme.Type.HTTP)
                                         .scheme("bearer")
                                         .bearerFormat("JWT")))
-                .externalDocs(new ExternalDocumentation()
-                .description("깃허브 레포지토리")
-                .url("https://github.com/EZRANDO/bookstore-backend"));
+                .externalDocs(new ExternalDocumentation());
     }
 }

@@ -8,6 +8,8 @@ import com.example.bookstorebackend.domain.review.dto.response.ReviewResponseDto
 import com.example.bookstorebackend.domain.review.dto.response.ReviewUpdateResponseDto;
 import com.example.bookstorebackend.domain.review.service.ReviewService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +29,27 @@ public class ReviewController {
 
     @PostMapping("/books/{bookId}/reviews")
     @Operation(summary = "리뷰 작성", description = "사용자가 특정 도서에 대해 리뷰를 작성합니다.")
-    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "201", description = "생성 성공")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "201",
+            description = "생성 성공",
+            content = @Content(
+                    mediaType = "application/json",
+                    examples = {
+                            @ExampleObject(
+                                    name = "리뷰 작성 성공 예시",
+                                    value = """
+                                    {
+                                      "isSuccess": true,
+                                      "message": "리뷰를 생성했습니다.",
+                                      "payload": {
+                                        "reviewId": 101
+                                      }
+                                    }
+                                    """
+                            )
+                    }
+            )
+    )
     public ResponseEntity<ApiResponse<ReviewBaseResponseDto>> createReview(
             @AuthenticationPrincipal(expression = "userId") Long userId,
             @PathVariable Long bookId,
@@ -37,9 +59,43 @@ public class ReviewController {
         return ApiResponse.onSuccess(SuccessCode.CREATE_REVIEW_SUCCESS, body);
     }
 
+
     @GetMapping("/reviews/me")
     @Operation(summary = "내 리뷰 조회", description = "현재 로그인한 사용자가 작성한 리뷰 전체를 조회합니다.")
-    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "조회 성공")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "200",
+            description = "조회 성공",
+            content = @Content(
+                    mediaType = "application/json",
+                    examples = {
+                            @ExampleObject(
+                                    name = "내 리뷰 전체 조회 성공 예시",
+                                    value = """
+                                    {
+                                      "isSuccess": true,
+                                      "message": "리뷰 목록을 조회했습니다.",
+                                      "payload": [
+                                        {
+                                          "reviewId": 101,
+                                          "bookId": 10,
+                                          "rating": 5,
+                                          "content": "정말 유익한 책입니다!",
+                                          "createdAt": "2025-03-10T11:20:00"
+                                        },
+                                        {
+                                          "reviewId": 102,
+                                          "bookId": 8,
+                                          "rating": 4,
+                                          "content": "잘 읽혔습니다.",
+                                          "createdAt": "2025-03-08T09:15:00"
+                                        }
+                                      ]
+                                    }
+                                    """
+                            )
+                    }
+            )
+    )
     public ResponseEntity<ApiResponse<List<ReviewResponseDto>>> findMyReviews(
             @AuthenticationPrincipal(expression = "userId") Long userId
     ) {
@@ -49,7 +105,31 @@ public class ReviewController {
 
     @GetMapping("/reviews/{reviewId}")
     @Operation(summary = "리뷰 상세 조회", description = "리뷰 ID로 특정 리뷰를 조회합니다.")
-    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "조회 성공")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "200",
+            description = "조회 성공",
+            content = @Content(
+                    mediaType = "application/json",
+                    examples = {
+                            @ExampleObject(
+                                    name = "리뷰 상세 조회 성공 예시",
+                                    value = """
+                                    {
+                                      "isSuccess": true,
+                                      "message": "리뷰를 조회했습니다.",
+                                      "payload": {
+                                        "reviewId": 101,
+                                        "bookId": 10,
+                                        "rating": 5,
+                                        "content": "정말 유익한 책입니다!",
+                                        "createdAt": "2025-03-10T11:20:00"
+                                      }
+                                    }
+                                    """
+                            )
+                    }
+            )
+    )
     public ResponseEntity<ApiResponse<ReviewResponseDto>> getReviewById(
             @AuthenticationPrincipal(expression = "userId") Long userId,
             @PathVariable Long reviewId
@@ -60,7 +140,27 @@ public class ReviewController {
 
     @PatchMapping("/reviews/{reviewId}")
     @Operation(summary = "리뷰 수정", description = "리뷰 ID로 특정 리뷰 내용을 수정합니다.")
-    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "수정 성공")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "200",
+            description = "수정 성공",
+            content = @Content(
+                    mediaType = "application/json",
+                    examples = {
+                            @ExampleObject(
+                                    name = "리뷰 수정 성공 예시",
+                                    value = """
+                                    {
+                                      "isSuccess": true,
+                                      "message": "리뷰를 수정했습니다.",
+                                      "payload": {
+                                        "reviewId": 101
+                                      }
+                                    }
+                                    """
+                            )
+                    }
+            )
+    )
     public ResponseEntity<ApiResponse<ReviewUpdateResponseDto>> updateReview(
             @AuthenticationPrincipal(expression = "userId") Long userId,
             @PathVariable Long reviewId,
@@ -72,7 +172,22 @@ public class ReviewController {
 
     @DeleteMapping("/reviews/{reviewId}")
     @Operation(summary = "리뷰 삭제", description = "리뷰 ID로 특정 리뷰를 삭제합니다.")
-    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "204", description = "삭제 성공")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "204",
+            description = "삭제 성공",
+            content = @Content(
+                    mediaType = "application/json",
+                    examples = {
+                            @ExampleObject(
+                                    name = "리뷰 삭제 성공 예시",
+                                    value = """
+                                    {
+                                    }
+                                    """
+                            )
+                    }
+            )
+    )
     public ResponseEntity<ApiResponse<Void>> deleteReview(
             @AuthenticationPrincipal(expression = "userId") Long userId,
             @PathVariable Long reviewId

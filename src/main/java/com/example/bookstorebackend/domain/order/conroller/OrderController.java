@@ -9,6 +9,8 @@ import com.example.bookstorebackend.domain.order.dto.response.OrderItemResponseD
 import com.example.bookstorebackend.domain.order.dto.response.OrderUpdateResponseDto;
 import com.example.bookstorebackend.domain.order.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +32,27 @@ public class OrderController {
 
     @PostMapping
     @Operation(summary = "주문 생성", description = "사용자의 장바구니 항목을 기반으로 주문을 생성합니다.")
-    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "201", description = "생성 성공")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "201",
+            description = "주문 생성 성공",
+            content = @Content(
+                    mediaType = "application/json",
+                    examples = {
+                            @ExampleObject(
+                                    name = "주문 생성 성공 예시",
+                                    value = """
+                                    {
+                                      "isSuccess": true,
+                                      "message": "주문이 정상적으로 생성되었습니다.",
+                                      "payload": {
+                                        "orderId": 501
+                                      }
+                                    }
+                                    """
+                            )
+                    }
+            )
+    )
     public ResponseEntity<ApiResponse<OrderBaseResponseDto>> createOrder(
             @Valid @RequestBody OrderRequestDto requestDto,
             @AuthenticationPrincipal(expression = "userId") Long userId
@@ -39,9 +61,36 @@ public class OrderController {
         return ApiResponse.onSuccess(SuccessCode.CREATE_ORDER_SUCCESS, body);
     }
 
+
     @GetMapping("/items")
     @Operation(summary = "내 주문 항목 전체 조회", description = "사용자가 생성한 모든 주문 항목을 조회합니다.")
-    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "조회 성공")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "200",
+            description = "주문 항목 조회 성공",
+            content = @Content(
+                    mediaType = "application/json",
+                    examples = {
+                            @ExampleObject(
+                                    name = "주문 항목 전체 조회 성공 예시",
+                                    value = """
+                                    {
+                                      "isSuccess": true,
+                                      "message": "주문 항목 목록을 정상적으로 조회했습니다.",
+                                      "payload": [
+                                        {
+                                          "orderItemId": 1,
+                                          "bookId": 1,
+                                          "quantity": 1,
+                                          "totalAmount": 25000,
+                                          "status": "CREATED"
+                                        }
+                                      ]
+                                    }
+                                    """
+                            )
+                    }
+            )
+    )
     public ResponseEntity<ApiResponse<List<OrderItemResponseDto>>> findAllOrderItems(
             @AuthenticationPrincipal(expression = "userId") Long userId
     ) {
@@ -49,10 +98,31 @@ public class OrderController {
         return ApiResponse.onSuccess(SuccessCode.GET_ORDER_ITEMS_SUCCESS, body);
     }
 
-    //이 경우 사용자와 관리자 로직이 뒤섞임. 사실상 분리 필요.
     @PatchMapping("/{orderId}/status")
     @Operation(summary = "주문 상태 변경", description = "사용자 또는 관리자가 주문 상태를 변경합니다.")
-    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "수정 성공")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "200",
+            description = "주문 상태 변경 성공",
+            content = @Content(
+                    mediaType = "application/json",
+                    examples = {
+                            @ExampleObject(
+                                    name = "주문 상태 변경 성공 예시",
+                                    value = """
+                                    {
+                                      "isSuccess": true,
+                                      "message": "주문 상태를 정상적으로 변경했습니다.",
+                                      "payload": {
+                                        "orderId": 501,
+                                        "status": "SHIPPED",
+                                        "updatedAt": "2025-09-15T22:07:15.7325804"
+                                      }
+                                    }
+                                    """
+                            )
+                    }
+            )
+    )
     public ResponseEntity<ApiResponse<OrderUpdateResponseDto>> updateOrderStatus(
             @PathVariable Long orderId,
             @Valid @RequestBody OrderStatusUpdateRequestDto requestDto,

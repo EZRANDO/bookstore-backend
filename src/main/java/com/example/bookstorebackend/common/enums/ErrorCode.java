@@ -1,16 +1,19 @@
 package com.example.bookstorebackend.common.enums;
 
 import com.example.bookstorebackend.common.response.ApiResult;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @Getter
 @RequiredArgsConstructor
+@Schema(hidden = true)
 public enum ErrorCode implements BaseCode {
 
     //USER
-    USER_NOT_FOUND(org.springframework.http.HttpStatus.NOT_FOUND, "유저를 찾을 수 없습니다."),
+    USER_NOT_FOUND(HttpStatus.NOT_FOUND, "유저를 찾을 수 없습니다."),
     ACCOUNT_NOT_FOUND(HttpStatus.UNAUTHORIZED, "존재하지 않는 계정입니다."),
     EMAIL_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "이미 존재하는 이메일 입니다."),
     NOT_MATCH_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
@@ -61,6 +64,8 @@ public enum ErrorCode implements BaseCode {
 
     private final HttpStatus httpStatus;
     private final String message;
+    @JsonIgnore
+    @Schema(hidden = true)
     private final ApiResult apiResult;
 
     ErrorCode(HttpStatus httpStatus, String message) {
